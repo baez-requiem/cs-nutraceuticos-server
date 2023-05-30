@@ -19,6 +19,7 @@ model Product {
   created_at  DateTime  @default(now())
   updated_at  DateTime?
   Stock       Stock[]
+  Sales       Sales[]
 }
 
 model Media {
@@ -33,7 +34,7 @@ model Media {
 model Seller {
   id            Int        @id @default(autoincrement())
   name          String     @db.VarChar(100)
-  rg            String?    @db.VarChar(10)
+  rg            String?    @db.VarChar(10)  
   cpf           String?    @db.VarChar(11)
   email         String     @db.VarChar(100)
   password      String     @db.VarChar(100)
@@ -50,7 +51,21 @@ model Seller {
   initial_date  DateTime?
   created_at    DateTime   @default(now())
   updated_at    DateTime?
+  Sales         Sales[]
 }
+
+model Sales {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  id_product Int
+  product    Product  @relation(fields: [id_product], references: [id])
+  id_seller  Int
+  seller     Seller   @relation(fields: [id_seller], references: [id])
+  quantity   Int
+// informaçoes do cliente...
+}
+
+
 
 model SalesTeam {
   id         Int       @id @default(autoincrement())
