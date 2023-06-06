@@ -16,15 +16,15 @@ class AuthenticateUserUseCase {
     })
 
     if (!userAlreadyExists) {
-      throw new Error("User or password incorrect")
+      throw new Error("Usuário ou senha incorretos")
     }
 
     const passwordMatch = await compare(password, userAlreadyExists.password)
 
     if (!passwordMatch) {
-      throw new Error("User or password incorrect")
+      throw new Error("Usuário ou senha incorretos")
     }
-
+    
     const generateTokenProvider = new GenerateTokenProvider()
     const token = await generateTokenProvider.execute(userAlreadyExists.id)
 

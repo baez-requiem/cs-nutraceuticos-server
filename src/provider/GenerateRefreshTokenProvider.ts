@@ -4,7 +4,7 @@ import { client } from "../prisma/client"
 
 class GenerateRefreshTokenProvider {
   async execute(userId: number) {
-    const expiresIn = dayjs().add(15, "s").unix()
+    const expiresIn = dayjs().add(1, "day").unix()
 
     const generateRefreshToken = await client.refreshToken.create({
       data: {
