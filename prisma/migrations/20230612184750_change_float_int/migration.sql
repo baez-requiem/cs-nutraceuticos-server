@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "batches" ALTER COLUMN "shipping" SET DATA TYPE DOUBLE PRECISION;

@@ -1,7 +1,7 @@
 import { client } from '../../prisma/client'
 
 interface IProductRequest {
-  id: number
+  id: string
 }
 
 class DeleteProductUseCase {

@@ -1,7 +1,7 @@
 import { client } from '../../prisma/client'
 
 interface IMediaRequest {
-  id: number
+  id: string
   name: string
   description?: string
   notes?: string

@@ -12,7 +12,8 @@ class AuthenticateUserUseCase {
 
   async execute({ username, password }: IRequest) {
     const userAlreadyExists = await client.user.findFirst({
-      where: { username }
+      where: { username },
+      include: { role: true }
     })
 
     if (!userAlreadyExists) {
@@ -37,7 +38,7 @@ class AuthenticateUserUseCase {
     const generateRefreshToken = new GenerateRefreshTokenProvider()
     const refreshToken = await generateRefreshToken.execute(userAlreadyExists.id)
 
-    return { token, refreshToken }
+    return { token, refreshToken, user: { role: userAlreadyExists.role?.name } }
   }
 
 }

@@ -3,52 +3,51 @@ import { Router } from "express"
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated"
 
 import {
-  AuthenticateUserController,
-  CreateMediaController,
-  CreateProductController,
-  CreateUserController,
-  DeleteMediaController,
-  DeleteProductController,
-  GetMediasController,
-  GetProductsController,
-  RefreshTokenUserController,
-  UpdateMediaController,
-  UpdateProductController
-} from './useCases'
+  UserController,
+  MediaController,
+  ProductController,
+  RoleController,
+  SaleTeamController,
+  AuthController,
+  StockController
+} from './controllers'
 
 const router = Router()
 
-const createUserController = new CreateUserController()
-const authenticateUserController = new AuthenticateUserController()
-const refreshTokenUserController = new RefreshTokenUserController()
+const authController = new AuthController()
+const userController = new UserController()
+const mediaController = new MediaController()
+const roleController = new RoleController()
+const saleTeamController = new SaleTeamController()
+const productController = new ProductController()
+const stockController = new StockController()
 
-const createProductController = new CreateProductController()
-const getProductsController = new GetProductsController()
-const updateProductController = new UpdateProductController()
-const deleteProductController = new DeleteProductController()
+router.post('/login', authController.authenticateUserHandle)
+router.post('/refresh-token', authController.refreshTokenUserHandle)
 
-const createMediaController = new CreateMediaController()
-const getMediasController = new GetMediasController()
-const updateMediaController = new UpdateMediaController()
-const deleteMediaController = new DeleteMediaController()
+router.post('/users', userController.createUserHandle)
+router.get('/users', userController.getUsersHandle)
+router.put('/users', userController.updateUserHandle)
+router.delete('/users', userController.deleteUserHandle)
 
-router.post('/users', createUserController.handle)
-router.post('/login', authenticateUserController.handle)
-router.post('/refresh-token', refreshTokenUserController.handle)
+router.post('/roles', roleController.createRoleHandle)
+router.get('/roles', roleController.getRolesHandle)
 
-router.post('/products', ensureAuthenticated, createProductController.handle)
-router.get("/products", ensureAuthenticated, getProductsController.handle)
-router.put('/products', ensureAuthenticated, updateProductController.handle)
-router.delete('/products', ensureAuthenticated, deleteProductController.handle)
+router.post('/sales-team', saleTeamController.createSaleTeamHandle)
+router.get('/sales-team', saleTeamController.getSalesTeamHandle)
+router.put('/sales-team', saleTeamController.updateSaleTeamHandle)
+router.delete('/sales-team', saleTeamController.deleteSaleTeamHandle)
 
-router.post('/products', ensureAuthenticated, createProductController.handle)
-router.get("/products", ensureAuthenticated, getProductsController.handle)
-router.put('/products', ensureAuthenticated, updateProductController.handle)
-router.delete('/products', ensureAuthenticated, deleteProductController.handle)
+router.post('/products', ensureAuthenticated, productController.createProductHandle)
+router.get("/products", ensureAuthenticated, productController.getProductsHandle)
+router.put('/products', ensureAuthenticated, productController.updateProductHandle)
+router.delete('/products', ensureAuthenticated, productController.deleteProductHandle)
 
-router.post('/medias', ensureAuthenticated, createMediaController.handle)
-router.get("/medias", ensureAuthenticated, getMediasController.handle)
-router.put('/medias', ensureAuthenticated, updateMediaController.handle)
-router.delete('/medias', ensureAuthenticated, deleteMediaController.handle)
+router.post('/medias', ensureAuthenticated, mediaController.createMediaHandle)
+router.get("/medias", ensureAuthenticated, mediaController.getMediasHandle)
+router.put('/medias', ensureAuthenticated, mediaController.updateMediaHandle)
+router.delete('/medias', ensureAuthenticated, mediaController.deleteMediaHandle)
+
+router.post('/stock-new-batch', ensureAuthenticated, stockController.createNewBatchHandle)
 
 export { router }
