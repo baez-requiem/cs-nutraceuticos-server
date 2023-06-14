@@ -3,7 +3,7 @@ import { client } from '../../prisma/client'
 class GetMediasUseCase {
   
   async execute() {
-    const medias = client.media.findMany({
+    const medias = await client.media.findMany({
       orderBy: { id: 'asc' }
     })
 
