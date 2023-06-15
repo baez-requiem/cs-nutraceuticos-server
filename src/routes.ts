@@ -49,6 +49,6 @@ router.put('/medias', ensureAuthenticated, mediaController.updateMediaHandle)
 router.delete('/medias', ensureAuthenticated, mediaController.deleteMediaHandle)
 
 router.post('/stock-new-batch', ensureAuthenticated, stockController.createNewBatchHandle)
-router.get('/stock-prducts', ensureAuthenticated, stockController.getStockProductsHandle)
+router.get('/stock-products', ensureAuthenticated, stockController.getStockProductsHandle)
 
 export { router }
