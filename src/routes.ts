@@ -52,5 +52,7 @@ router.post('/stock-new-batch', ensureAuthenticated, stockController.createNewBa
 router.get('/stock-products', ensureAuthenticated, stockController.getStockProductsHandle)
 
 router.get('/batches', ensureAuthenticated, stockController.getBatchesHandle)
+router.put('/batches', ensureAuthenticated, stockController.updateBatchHandle)
+router.delete('/batches', ensureAuthenticated, stockController.deleteBatchHandle)
 
 export { router }
