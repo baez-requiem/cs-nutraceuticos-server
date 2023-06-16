@@ -15,6 +15,10 @@ class DeleteUserUseCase {
       where: { id }
     })
 
+    await client.refreshToken.deleteMany({
+      where: { userId: id }
+    })
+
     return { status: true }
   }
 }
