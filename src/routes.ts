@@ -9,7 +9,8 @@ import {
   RoleController,
   SaleTeamController,
   AuthController,
-  StockController
+  StockController,
+  MisplacementController
 } from './controllers'
 
 const router = Router()
@@ -21,6 +22,7 @@ const roleController = new RoleController()
 const saleTeamController = new SaleTeamController()
 const productController = new ProductController()
 const stockController = new StockController()
+const misplacementController = new MisplacementController()
 
 router.post('/login', authController.authenticateUserHandle)
 router.post('/refresh-token', authController.refreshTokenUserHandle)
@@ -55,6 +57,7 @@ router.get('/batches', ensureAuthenticated, stockController.getBatchesHandle)
 router.put('/batches', ensureAuthenticated, stockController.updateBatchHandle)
 router.delete('/batches', ensureAuthenticated, stockController.deleteBatchHandle)
 
-router.post('/misplacements', ensureAuthenticated, stockController.createMisplacementHandle)
+router.get('/misplacements', ensureAuthenticated, misplacementController.getMisplacementsHandle)
+router.post('/misplacements', ensureAuthenticated, misplacementController.createMisplacementHandle)
 
 export { router }

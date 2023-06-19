@@ -4,7 +4,6 @@ import { GetStockProductsUseCase } from '../useCases/getStockProducts/GetStockPr
 import { GetBatchesUseCase } from '../useCases/getBatches/GetBatchesUseCase'
 import { DeleteBatchUseCase } from '../useCases/deleteBatch/DeleteBatchUseCase'
 import { UpdateBatchUseCase } from '../useCases/updateBatch/UpdateBatchUseCase'
-import { CreateMisplacementUseCase } from '../useCases/createMisplacement/CreateMisplacementUseCase'
 
 class StockController {
   async createNewBatchHandle(request: Request, response: Response) {
@@ -47,14 +46,6 @@ class StockController {
     const batch = await updateBatchUseCase.execute(request.body)
 
     return response.json(batch)
-  }
-
-  async createMisplacementHandle(request: Request, response: Response) {
-    const createMisplacementUseCase = new CreateMisplacementUseCase()
-
-    const misplacement = await createMisplacementUseCase.execute(request.body)
-
-    return response.json(misplacement)
   }
 }
 

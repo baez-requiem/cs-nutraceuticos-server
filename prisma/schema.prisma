@@ -76,6 +76,7 @@ model Product {
   // Sales       Sales[]
   BatchesProducts      BatchesProducts[]
   MisplacementProducts MisplacementProducts[]
+  SaleProducts         SaleProducts[]
 
   @@map("products")
 }
@@ -88,6 +89,7 @@ model Media {
   active      Boolean   @default(false)
   created_at  DateTime  @default(now())
   updated_at  DateTime?
+  Sale        Sale[]
 
   @@map("medias")
 }
@@ -141,19 +143,72 @@ model Misplacement {
   @@map("misplacements")
 }
 
+model PaymentType {
+  id         String   @id @default(uuid())
+  name       String
+  notes      String?
+  created_at DateTime @default(now())
+  Sale       Sale[]
+
+  @@map("payments_type")
+}
+
 model MisplacementProducts {
-  id              String        @id @default(uuid())
+  id              String       @id @default(uuid())
   //
   id_misplacement String
   misplacement    Misplacement @relation(fields: [id_misplacement], references: [id])
   //
   id_product      String
-  product         Product       @relation(fields: [id_product], references: [id])
+  product         Product      @relation(fields: [id_product], references: [id])
   //
   quantity        Int
   //
-  created_at      DateTime      @default(now())
+  created_at      DateTime     @default(now())
   updated_at      DateTime?
 
   @@map("misplacement_products")
+}
+
+model Sale {
+  id              String          @id @default(uuid())
+  name            String
+  phone           String
+  rg              String?
+  cpf             String?
+  email           String?
+  //
+  cep             String?
+  state           String?
+  city            String?
+  neighborhood    String?
+  address         String?
+  complement      String?
+  //
+  media_id        String
+  media           Media           @relation(fields: [media_id], references: [id])
+  //
+  payment_type_id String
+  payment_type    PaymentType     @relation(fields: [payment_type_id], references: [id])
+  //
+  discounts       Float           @default(0)
+  notes           String?
+  SaleProducts    SaleProducts[]
+
+  @@map("sales")
+}
+
+model SaleProducts {
+  id         String   @id @default(uuid())
+  //
+  id_product String
+  product    Product  @relation(fields: [id_product], references: [id])
+  //
+  id_sale    String
+  sale       Sale     @relation(fields: [id_sale], references: [id])
+  //
+  quantity   Int
+  created_at DateTime @default(now())
+
+  @@map("sales_products")
 }

@@ -30,10 +30,21 @@ class GetStockProductsUseCase {
       }
     })
 
-    const resumeProductsInStock = productsInStock.map(ps => ({
-      ...ps,
-      quantity: products.find(p => p.id_product === ps.id)?.quantity
-    }))
+    const misplacementsProducts = await client.misplacementProducts.findMany()
+
+    const resumeProductsInStock = productsInStock.map(ps => {
+      const misplacementsQuantity = misplacementsProducts
+        .filter(mp => mp.id_product == ps.id)
+        .map(mp => mp.quantity)
+        .reduce((pv, cv) => pv + cv, 0) || 0
+
+      const quantity = products.find(p => p.id_product === ps.id)?.quantity || 0
+
+      return ({
+        ...ps,
+        quantity: quantity - misplacementsQuantity
+      })
+    })
 
     return resumeProductsInStock
   }
