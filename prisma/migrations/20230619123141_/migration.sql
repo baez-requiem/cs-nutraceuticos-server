@@ -110,7 +110,6 @@ CREATE TABLE "misplacements" (
     "id" TEXT NOT NULL,
     "notes" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3),
 
     CONSTRAINT "misplacements_pkey" PRIMARY KEY ("id")
 );

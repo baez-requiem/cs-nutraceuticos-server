@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev src/server.ts",
-    "prisma-seed": "ts-node prisma/seed/index.ts"
+    "prisma-seed": "ts-node prisma/seed/index.ts",
+    "prisma-dev-seed": "ts-node prisma/seed/index.ts"
   },
   "keywords": [],
   "author": "",

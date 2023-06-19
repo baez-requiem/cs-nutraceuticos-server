@@ -132,11 +132,10 @@ model BatchesProducts {
   @@map("batches_products")
 }
 
-model Misplacements {
+model Misplacement {
   id                   String                 @id @default(uuid())
   notes                String?
   created_at           DateTime               @default(now())
-  updated_at           DateTime?
   MisplacementProducts MisplacementProducts[]
 
   @@map("misplacements")
@@ -146,7 +145,7 @@ model MisplacementProducts {
   id              String        @id @default(uuid())
   //
   id_misplacement String
-  misplacement    Misplacements @relation(fields: [id_misplacement], references: [id])
+  misplacement    Misplacement @relation(fields: [id_misplacement], references: [id])
   //
   id_product      String
   product         Product       @relation(fields: [id_product], references: [id])

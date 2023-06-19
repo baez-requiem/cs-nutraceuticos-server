@@ -49,7 +49,7 @@ class StockController {
     return response.json(batch)
   }
 
-  async createMisplacementsHandle(request: Request, response: Response) {
+  async createMisplacementHandle(request: Request, response: Response) {
     const createMisplacementUseCase = new CreateMisplacementUseCase()
 
     const misplacement = await createMisplacementUseCase.execute(request.body)

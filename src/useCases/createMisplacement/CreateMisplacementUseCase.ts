@@ -16,9 +16,9 @@ class CreateMisplacementUseCase {
 
     const validData = validateData.data
 
-    const misplacement = await client.misplacements.create({
+    const misplacement = await client.misplacement.create({
       data: {
-        notes: validData.notes
+        notes: validData.notes,
       }
     })
 
