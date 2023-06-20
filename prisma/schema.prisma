@@ -72,8 +72,7 @@ model Product {
   amount               Float
   created_at           DateTime               @default(now())
   updated_at           DateTime?
-  // Stock       Stock[]
-  // Sales       Sales[]
+  //
   BatchesProducts      BatchesProducts[]
   MisplacementProducts MisplacementProducts[]
   SaleProducts         SaleProducts[]

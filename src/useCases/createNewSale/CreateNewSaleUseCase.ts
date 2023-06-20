@@ -6,16 +6,16 @@ interface INewSaleRequest extends CreateNewSaleSchemaType {}
 
 class CreateNewSaleUseCase {
 
-    async execute(data: INewSaleRequest) {
-        const validateData = CreateNewSaleSchema.safeParse(data)
+  async execute(data: INewSaleRequest) {
+    const validateData = CreateNewSaleSchema.safeParse(data)
 
-        if (!validateData.success) {
-            formatErrorsZod(validateData.error)
-            return
-        }
-
-        const validData = validateData.data
+    if (!validateData.success) {
+      formatErrorsZod(validateData.error)
+      return
     }
+
+    const validData = validateData.data
+  }
 }
 
 export { CreateNewSaleUseCase }

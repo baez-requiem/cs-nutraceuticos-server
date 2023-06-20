@@ -10,18 +10,20 @@ import {
   SaleTeamController,
   AuthController,
   StockController,
-  MisplacementController
+  MisplacementController,
+  SaleController
 } from './controllers'
 
 const router = Router()
 
-const authController = new AuthController()
-const userController = new UserController()
-const mediaController = new MediaController()
-const roleController = new RoleController()
-const saleTeamController = new SaleTeamController()
-const productController = new ProductController()
-const stockController = new StockController()
+const authController         = new AuthController()
+const userController         = new UserController()
+const roleController         = new RoleController()
+const saleController         = new SaleController()
+const mediaController        = new MediaController()
+const stockController        = new StockController()
+const productController      = new ProductController()
+const saleTeamController     = new SaleTeamController()
 const misplacementController = new MisplacementController()
 
 router.post('/login', authController.authenticateUserHandle)
@@ -59,5 +61,7 @@ router.delete('/batches', ensureAuthenticated, stockController.deleteBatchHandle
 
 router.get('/misplacements', ensureAuthenticated, misplacementController.getMisplacementsHandle)
 router.post('/misplacements', ensureAuthenticated, misplacementController.createMisplacementHandle)
+
+router.get('/payment-types', ensureAuthenticated, saleController.getPaymentsTypesHandle)
 
 export { router }

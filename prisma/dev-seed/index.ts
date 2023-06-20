@@ -5,10 +5,13 @@ import { hash } from 'bcryptjs'
 import { roles } from './roles'
 import { users } from './users'
 import { products } from './products'
+import { paymentTypes } from './paymentTypes'
+import { medias } from './medias'
 
 const client = new PrismaClient()
 
 async function main() {
+
   for (let role of roles) {
     await client.role.create({
       data: role
@@ -30,6 +33,18 @@ async function main() {
         password: passwordHash
       }
     })
+  }
+
+  for (let paymentType of paymentTypes) {
+    await client.paymentType.create({
+      data: paymentType
+    })  
+  }
+  
+  for (let media of medias) {
+    await client.media.create({
+      data: media
+    })  
   }
 }
 
