@@ -14,10 +14,10 @@ class StockController {
     return response.json(batch)
   }
 
-  async getStockProductsHandle(_request: Request, response: Response) {
+  async getStockProductsHandle(request: Request, response: Response) {
     const getStockProductsUseCase = new GetStockProductsUseCase()
 
-    const products = await getStockProductsUseCase.execute()
+    const products = await getStockProductsUseCase.execute(request.query)
 
     return response.json(products)
   }

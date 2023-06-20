@@ -1,15 +1,37 @@
+import { Prisma } from '@prisma/client'
 import { client } from '../../prisma/client'
+import { formatErrorsZod } from '../../utils/zod.utils'
+import { GetStockProductsSchema, GetStockProductsSchemaType } from './getStockProductsSchema'
 
 type ProductType = {
   id_product: string
   quantity: number
 }
 
+interface IGetStockProducts extends GetStockProductsSchemaType {}
+
 class GetStockProductsUseCase {
   
-  async execute() {
+  async execute(query: IGetStockProducts) {
+
+    console.log(query)
+
+    const validateQuery = GetStockProductsSchema.safeParse(query)
+
+    if (!validateQuery.success) {
+      formatErrorsZod(validateQuery.error)
+      return
+    }
+
+    const validQuery = validateQuery.data
+
+    const whereBatchesProducts: Prisma.BatchesProductsWhereInput = {}
+
+    typeof validQuery?.active == 'boolean' && (whereBatchesProducts.product = { active: validQuery?.active })
+
     const batchesProducts = await client.batchesProducts.findMany({
-      select: { id_product: true, quantity: true }
+      select: { id_product: true, quantity: true },
+      where: whereBatchesProducts
     })
 
     const products: ProductType[] = []
