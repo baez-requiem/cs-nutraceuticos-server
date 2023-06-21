@@ -23,7 +23,7 @@ export const CreateNewSaleSchema = z.object({
 
   products: z.object({
     id_product: z.string().nonempty(),
-    id_sale: z.string().nonempty(),
+    sales_quantity: z.number().min(1),
     quantity: z.number().min(1)
   }).array()
 })

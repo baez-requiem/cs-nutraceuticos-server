@@ -13,9 +13,6 @@ interface IGetStockProducts extends GetStockProductsSchemaType {}
 class GetStockProductsUseCase {
   
   async execute(query: IGetStockProducts) {
-
-    console.log(query)
-
     const validateQuery = GetStockProductsSchema.safeParse(query)
 
     if (!validateQuery.success) {

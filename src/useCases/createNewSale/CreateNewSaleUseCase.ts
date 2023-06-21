@@ -22,7 +22,7 @@ class CreateNewSaleUseCase {
 
     const dataSaleProducts = products.map(sp => ({ ...sp, id_sale: sale.id }))
 
-    const saleProducts = client.saleProducts.createMany({
+    const saleProducts = await client.saleProducts.createMany({
       data: dataSaleProducts
     })
 
