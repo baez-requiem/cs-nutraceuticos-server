@@ -14,7 +14,19 @@ class CreateNewSaleUseCase {
       return
     }
 
-    const validData = validateData.data
+    const { products , ...validData } = validateData.data
+
+    const sale = await client.sale.create({
+      data: validData
+    })
+
+    const dataSaleProducts = products.map(sp => ({ ...sp, id_sale: sale.id }))
+
+    const saleProducts = client.saleProducts.createMany({
+      data: dataSaleProducts
+    })
+
+    return { ...sale, products: saleProducts }
   }
 }
 

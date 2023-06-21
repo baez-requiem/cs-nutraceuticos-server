@@ -64,4 +64,6 @@ router.post('/misplacements', ensureAuthenticated, misplacementController.create
 
 router.get('/payment-types', ensureAuthenticated, saleController.getPaymentsTypesHandle)
 
+router.post('/sales', ensureAuthenticated, saleController.newSaleHandle)
+
 export { router }
