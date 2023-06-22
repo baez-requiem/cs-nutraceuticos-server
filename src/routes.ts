@@ -29,18 +29,18 @@ const misplacementController = new MisplacementController()
 router.post('/login', authController.authenticateUserHandle)
 router.post('/refresh-token', authController.refreshTokenUserHandle)
 
-router.post('/users', userController.createUserHandle)
-router.get('/users', userController.getUsersHandle)
-router.put('/users', userController.updateUserHandle)
-router.delete('/users', userController.deleteUserHandle)
+router.post('/users', ensureAuthenticated, userController.createUserHandle)
+router.get('/users', ensureAuthenticated, userController.getUsersHandle)
+router.put('/users', ensureAuthenticated, userController.updateUserHandle)
+router.delete('/users', ensureAuthenticated, userController.deleteUserHandle)
 
-router.post('/roles', roleController.createRoleHandle)
-router.get('/roles', roleController.getRolesHandle)
+router.post('/roles', ensureAuthenticated, roleController.createRoleHandle)
+router.get('/roles', ensureAuthenticated, roleController.getRolesHandle)
 
-router.post('/sales-team', saleTeamController.createSaleTeamHandle)
-router.get('/sales-team', saleTeamController.getSalesTeamHandle)
-router.put('/sales-team', saleTeamController.updateSaleTeamHandle)
-router.delete('/sales-team', saleTeamController.deleteSaleTeamHandle)
+router.post('/sales-team', ensureAuthenticated, saleTeamController.createSaleTeamHandle)
+router.get('/sales-team', ensureAuthenticated, saleTeamController.getSalesTeamHandle)
+router.put('/sales-team', ensureAuthenticated, saleTeamController.updateSaleTeamHandle)
+router.delete('/sales-team', ensureAuthenticated, saleTeamController.deleteSaleTeamHandle)
 
 router.post('/products', ensureAuthenticated, productController.createProductHandle)
 router.get("/products", ensureAuthenticated, productController.getProductsHandle)
@@ -61,6 +61,7 @@ router.delete('/batches', ensureAuthenticated, stockController.deleteBatchHandle
 
 router.get('/misplacements', ensureAuthenticated, misplacementController.getMisplacementsHandle)
 router.post('/misplacements', ensureAuthenticated, misplacementController.createMisplacementHandle)
+router.delete('/misplacements', ensureAuthenticated, misplacementController.deleteMisplacementHandle)
 
 router.get('/payment-types', ensureAuthenticated, saleController.getPaymentsTypesHandle)
 

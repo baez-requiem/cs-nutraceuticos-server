@@ -40,6 +40,9 @@ model User {
   created_at   DateTime       @default(now())
   updated_at   DateTime?
   RefreshToken RefreshToken[]
+  Misplacement Misplacement[]
+  Sale         Sale[]
+  Batch        Batch[]
 
   @@map("users")
 }
@@ -111,6 +114,9 @@ model Batch {
   created_at      DateTime          @default(now())
   updated_at      DateTime?
   BatchesProducts BatchesProducts[]
+  //
+  id_user         String
+  user            User              @relation(fields: [id_user], references: [id])
 
   @@map("batches")
 }
@@ -138,6 +144,9 @@ model Misplacement {
   notes                String?
   created_at           DateTime               @default(now())
   MisplacementProducts MisplacementProducts[]
+  //
+  id_user              String
+  user                 User                   @relation(fields: [id_user], references: [id])
 
   @@map("misplacements")
 }
@@ -189,6 +198,9 @@ model Sale {
   //
   payment_type_id String
   payment_type    PaymentType    @relation(fields: [payment_type_id], references: [id])
+  //
+  id_user         String
+  user            User           @relation(fields: [id_user], references: [id])
   //
   discounts       Float          @default(0)
   notes           String?

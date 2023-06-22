@@ -19,7 +19,8 @@ class CreateNewBatchUseCase {
     const batch = await client.batch.create({
       data: {
         shipping: validData.shipping,
-        notes: validData.notes
+        notes: validData.notes,
+        id_user: validData.id_user,
       }
     })
 

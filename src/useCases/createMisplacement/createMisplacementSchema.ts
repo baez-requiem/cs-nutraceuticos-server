@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 export const CreateMisplacementSchema = z.object({
+  id_user: z.string(),
   notes: z.string().optional(),
   products: z.object({
     id_product: z.string(),

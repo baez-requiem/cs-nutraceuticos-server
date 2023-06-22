@@ -13,7 +13,7 @@ export function ensureAuthenticated(request: Request, response: Response, next: 
   const [_, token] = authToken.split(" ")
 
   try {
-    verify(token, "d9781907-36fe-4e5a-b122-b8003c3432e5")
+    verify(token, process.env.JWT_SECRET_TOKEN!)
 
     return next()
   } catch (error) {

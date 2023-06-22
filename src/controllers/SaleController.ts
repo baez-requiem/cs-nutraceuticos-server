@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { GetPaymentTypesUseCase } from '../useCases/getPaymentTypes/GetPaymentTypesUseCase'
 import { CreateNewSaleUseCase } from '../useCases/createNewSale/CreateNewSaleUseCase'
+import { GetUserByAuthProvider } from '../provider/GetUserByTokenProvider'
 
 
 class SaleController {
@@ -14,8 +15,12 @@ class SaleController {
 
   async newSaleHandle(request: Request, response: Response) {
     const createNewSaleUseCase = new CreateNewSaleUseCase()
+    const getTokenSubjectProvider = new GetUserByAuthProvider()
 
-    const sale = await createNewSaleUseCase.execute(request.body)
+    const authToken = request.headers.authorization!
+    const user = await getTokenSubjectProvider.execute(authToken)
+
+    const sale = await createNewSaleUseCase.execute({ ...request.body, id_user: user?.id })
 
     response.json(sale)
   }

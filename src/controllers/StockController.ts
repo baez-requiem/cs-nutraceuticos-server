@@ -4,12 +4,17 @@ import { GetStockProductsUseCase } from '../useCases/getStockProducts/GetStockPr
 import { GetBatchesUseCase } from '../useCases/getBatches/GetBatchesUseCase'
 import { DeleteBatchUseCase } from '../useCases/deleteBatch/DeleteBatchUseCase'
 import { UpdateBatchUseCase } from '../useCases/updateBatch/UpdateBatchUseCase'
+import { GetUserByAuthProvider } from '../provider/GetUserByTokenProvider'
 
 class StockController {
   async createNewBatchHandle(request: Request, response: Response) {
     const createNewBatchUseCase = new CreateNewBatchUseCase()
+    const getTokenSubjectProvider = new GetUserByAuthProvider()
 
-    const batch = await createNewBatchUseCase.execute(request.body)
+    const authToken = request.headers.authorization!
+    const user = await getTokenSubjectProvider.execute(authToken)
+
+    const batch = await createNewBatchUseCase.execute({ ...request.body, id_user: user?.id })
 
     return response.json(batch)
   }

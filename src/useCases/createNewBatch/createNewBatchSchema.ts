@@ -1,6 +1,8 @@
 import { z } from "zod"
 
 export const CreateNewBatchSchema = z.object({
+  id_user: z.string(),
+  
   notes:        z.string().optional(),
   shipping:     z.number({ required_error: 'Valor é obrigatório' }).min(0).default(0),
   products: z.object({
