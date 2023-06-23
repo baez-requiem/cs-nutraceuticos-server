@@ -2,6 +2,7 @@ import { z } from "zod"
 
 export const CreateNewSaleSchema = z.object({
   id_user: z.string(),
+  id_sales_team: z.string().nonempty().optional(),
   
   name: z.string().nonempty(),
   phone: z.string().nonempty(),

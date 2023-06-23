@@ -20,7 +20,11 @@ class SaleController {
     const authToken = request.headers.authorization!
     const user = await getTokenSubjectProvider.execute(authToken)
 
-    const sale = await createNewSaleUseCase.execute({ ...request.body, id_user: user?.id })
+    const sale = await createNewSaleUseCase.execute({
+      ...request.body,
+      id_user: user?.id,
+      id_sales_team: user?.salesTeamId
+    })
 
     response.json(sale)
   }

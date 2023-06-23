@@ -103,6 +103,7 @@ model SalesTeam {
   created_at DateTime  @default(now())
   updated_at DateTime?
   User       User[]
+  Sale       Sale[]
 
   @@map("sales_team")
 }
@@ -201,6 +202,9 @@ model Sale {
   //
   id_user         String
   user            User           @relation(fields: [id_user], references: [id])
+  //
+  id_sales_team    String?
+  sales_team       SalesTeam?     @relation(fields: [id_sales_team], references: [id])
   //
   discounts       Float          @default(0)
   notes           String?
