@@ -67,18 +67,19 @@ model Role {
 }
 
 model Product {
-  id                   String                 @id @default(uuid())
-  name                 String
-  description          String?
-  notes                String?
-  active               Boolean                @default(false)
-  amount               Float
-  created_at           DateTime               @default(now())
-  updated_at           DateTime?
+  id                     String                 @id @default(uuid())
+  name                   String
+  description            String?
+  notes                  String?
+  active                 Boolean                @default(false)
+  amount                 Float
+  supply_quantity_notice Int?
+  created_at             DateTime               @default(now())
+  updated_at             DateTime?
   //
-  BatchesProducts      BatchesProducts[]
-  MisplacementProducts MisplacementProducts[]
-  SaleProducts         SaleProducts[]
+  BatchesProducts        BatchesProducts[]
+  MisplacementProducts   MisplacementProducts[]
+  SaleProducts           SaleProducts[]
 
   @@map("products")
 }
@@ -203,8 +204,8 @@ model Sale {
   id_user         String
   user            User           @relation(fields: [id_user], references: [id])
   //
-  id_sales_team    String?
-  sales_team       SalesTeam?     @relation(fields: [id_sales_team], references: [id])
+  id_sales_team   String?
+  sales_team      SalesTeam?     @relation(fields: [id_sales_team], references: [id])
   //
   discounts       Float          @default(0)
   notes           String?

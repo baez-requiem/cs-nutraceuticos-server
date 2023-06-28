@@ -9,6 +9,8 @@ class CreateProductUseCase {
   async execute(data: IProductRequest) {
     const validateData = CreateProductSchema.safeParse(data)
 
+    console.log(validateData)
+
     if (!validateData.success) {
       formatErrorsZod(validateData.error)
       return

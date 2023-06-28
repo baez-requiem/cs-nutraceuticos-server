@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const activeSchema = z.union([
+const boolOptionalSchema = z.union([
   z.literal('true'),
   z.literal('false'),
 ]).transform(val => {
@@ -10,8 +10,8 @@ const activeSchema = z.union([
 }).optional()
 
 export const GetStockProductsSchema = z.object({
-  active: activeSchema,
-  in_stock: z.boolean().optional(),
+  active: boolOptionalSchema,
+  in_stock: boolOptionalSchema,
 })
 
 export type GetStockProductsSchemaType = z.infer<typeof GetStockProductsSchema>

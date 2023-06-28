@@ -3,11 +3,6 @@ import { client } from '../../prisma/client'
 import { formatErrorsZod } from '../../utils/zod.utils'
 import { GetStockProductsSchema, GetStockProductsSchemaType } from './getStockProductsSchema'
 
-type ProductType = {
-  id_product: string
-  quantity: number
-}
-
 interface IGetStockProducts extends GetStockProductsSchemaType {}
 
 class GetStockProductsUseCase {
@@ -22,50 +17,36 @@ class GetStockProductsUseCase {
 
     const validQuery = validateQuery.data
 
-    const whereBatchesProducts: Prisma.BatchesProductsWhereInput = {}
+    const whereProducts: Prisma.ProductWhereInput = {}
 
-    typeof validQuery?.active == 'boolean' && (whereBatchesProducts.product = { active: validQuery?.active })
+    typeof validQuery?.active == 'boolean' && (whereProducts.active = !!validQuery.active)
 
-    const batchesProducts = await client.batchesProducts.findMany({
-      select: { id_product: true, quantity: true },
-      where: whereBatchesProducts
-    })
-
-    const products: ProductType[] = []
-
-    batchesProducts.forEach(bp => {
-      const inProductsArr = products.find(p => p.id_product === bp.id_product)
-
-      inProductsArr
-        ? inProductsArr.quantity += bp.quantity
-        : products.push(bp)
-    })
-
-    const productsInStock = await client.product.findMany({
-      where: {
-        id: {
-          in: products.map(p => p.id_product)
-        }
+    const products = await client.product.findMany({
+      where: whereProducts,
+      include: {
+        BatchesProducts: true,
+        MisplacementProducts: true,
+        SaleProducts: true
       }
     })
 
-    const misplacementsProducts = await client.misplacementProducts.findMany()
+    const productsWithTotal = products.map(product => {
+      const { BatchesProducts, MisplacementProducts, SaleProducts, ...data } = product
 
-    const resumeProductsInStock = productsInStock.map(ps => {
-      const misplacementsQuantity = misplacementsProducts
-        .filter(mp => mp.id_product == ps.id)
-        .map(mp => mp.quantity)
-        .reduce((pv, cv) => pv + cv, 0) || 0
+      const batchProductQuantity = BatchesProducts.reduce((pv, cv) => pv + cv.quantity,0)
+      const misplacementProductQuantity = MisplacementProducts.reduce((pv, cv) => pv + cv.quantity,0)
+      const saleProductQuantity = SaleProducts.reduce((pv, cv) => pv + cv.quantity,0)
 
-      const quantity = products.find(p => p.id_product === ps.id)?.quantity || 0
+      const total = batchProductQuantity - misplacementProductQuantity - saleProductQuantity
 
-      return ({
-        ...ps,
-        quantity: quantity - misplacementsQuantity
-      })
+      return { ...data, total }
     })
 
-    return resumeProductsInStock
+    if (typeof validQuery.in_stock == 'boolean') {
+      return productsWithTotal.filter(p => validQuery.in_stock ? (p.total > 0) : (p.total <= 0)) 
+    }
+
+    return productsWithTotal
   }
 }
 
