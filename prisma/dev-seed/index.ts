@@ -7,10 +7,16 @@ import { users } from './users'
 import { products } from './products'
 import { paymentTypes } from './paymentTypes'
 import { medias } from './medias'
+import { salesTeam } from './salesTeam'
 
 const client = new PrismaClient()
 
 async function main() {
+  for (let saleTeam of salesTeam) {
+    await client.salesTeam.create({
+      data: saleTeam
+    })
+  }
 
   for (let role of roles) {
     await client.role.create({

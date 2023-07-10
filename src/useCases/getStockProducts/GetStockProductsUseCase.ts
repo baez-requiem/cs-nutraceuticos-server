@@ -23,6 +23,7 @@ class GetStockProductsUseCase {
 
     const products = await client.product.findMany({
       where: whereProducts,
+      orderBy: { name: 'asc' },
       include: {
         BatchesProducts: true,
         MisplacementProducts: true,

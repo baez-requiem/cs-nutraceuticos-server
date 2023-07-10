@@ -210,6 +210,9 @@ model Sale {
   discounts       Float          @default(0)
   notes           String?
   SaleProducts    SaleProducts[]
+  //
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
 
   @@map("sales")
 }
