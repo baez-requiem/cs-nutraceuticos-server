@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const CreateNewSaleSchema = z.object({
+export const CreateSaleSchema = z.object({
   id_user: z.string(),
   id_sales_team: z.string().nonempty().nullable().optional(),
   
@@ -30,5 +30,3 @@ export const CreateNewSaleSchema = z.object({
     quantity: z.number().min(1)
   }).array()
 })
-
-export type CreateNewSaleSchemaType = z.infer<typeof CreateNewSaleSchema>
