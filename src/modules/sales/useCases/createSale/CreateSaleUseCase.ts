@@ -9,7 +9,12 @@ class CreateSaleUseCase {
 
     const { products , ...data } = parseSchema(CreateSaleSchema, request)
 
-    const sale = await client.sale.create({ data })
+    const sale = await client.sale.create({
+      data: {
+        ...data,
+        id_sale_status: 'aguardando-aprovacao'
+      }
+    })
 
     const dataSaleProducts = products.map(sp => ({ ...sp, id_sale: sale.id }))
 

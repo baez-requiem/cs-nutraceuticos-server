@@ -7,6 +7,8 @@ class GetPaymentTypesUseCase {
       orderBy: { name: 'asc' }
     })
 
+    console.log('a')
+
     return paymentTypes
   }
 }

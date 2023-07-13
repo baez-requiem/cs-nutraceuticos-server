@@ -14,6 +14,7 @@ import { productsRouter } from "./modules/products/routes"
 import { salesTeamsRouter } from "./modules/salesTeams/router"
 import { usersRouter } from "./modules/users/routes"
 import { salesRouter } from "./modules/sales/routes"
+import { logisticRouter } from "./modules/logistic/routes"
 
 const router = Router()
 
@@ -45,5 +46,6 @@ router.use('/products', productsRouter)
 router.use('/sales-team', salesTeamsRouter)
 router.use('/users', usersRouter)
 router.use('/sales', salesRouter)
+router.use('/logistic', logisticRouter)
 
 export { router }

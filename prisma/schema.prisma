@@ -207,12 +207,15 @@ model Sale {
   id_sales_team   String?
   sales_team      SalesTeam?     @relation(fields: [id_sales_team], references: [id])
   //
+  id_sale_status  String?
+  sale_status     SaleStatus?    @relation(fields: [id_sale_status], references: [id])
+  //
   discounts       Float          @default(0)
   notes           String?
   SaleProducts    SaleProducts[]
   //
-  created_at  DateTime  @default(now())
-  updated_at  DateTime?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime?
 
   @@map("sales")
 }
@@ -231,4 +234,12 @@ model SaleProducts {
   created_at     DateTime @default(now())
 
   @@map("sales_products")
+}
+
+model SaleStatus {
+  id     String @id @default(uuid())
+  status String
+  Sale   Sale[]
+
+  @@map("sale_status")
 }
