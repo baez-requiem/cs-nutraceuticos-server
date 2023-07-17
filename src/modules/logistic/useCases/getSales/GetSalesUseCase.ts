@@ -8,18 +8,22 @@ class GetSalesUseCase {
       include: {
         media: true,
         payment_type: true,
-        sale_status: true,
+        LogisticInfos: { 
+          include: { sale_status: true },
+          orderBy: { created_at: 'desc' }
+        },
         sales_team: true,
         user: true,
         SaleProducts: {
-          include: { product: true }
+          include: { product: true, }
         },
       }
     })
 
-    const salesMap = sales.map(({ SaleProducts,  ...sale}) => ({
+    const salesMap = sales.map(({ SaleProducts, LogisticInfos, ...sale}) => ({
       ...sale,
-      sale_products: SaleProducts
+      sale_products: SaleProducts,
+      logistic_infos: LogisticInfos
     }))
 
     return salesMap
