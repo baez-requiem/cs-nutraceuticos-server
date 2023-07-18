@@ -10,6 +10,7 @@ import { medias } from './medias'
 import { salesTeam } from './salesTeam'
 import { saleStatus } from './saleStatus'
 import { deliveryTypes } from './deliveryTypes'
+import { motoboys } from './motoboys'
 
 const client = new PrismaClient()
 
@@ -46,6 +47,12 @@ async function main() {
   for (let paymentType of paymentTypes) {
     await client.paymentType.create({
       data: paymentType
+    })  
+  }
+
+  for (let motoboy of motoboys) {
+    await client.motoBoy.create({
+      data: motoboy
     })  
   }
 
