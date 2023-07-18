@@ -3,8 +3,6 @@ import { Router } from "express"
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated"
 
 import {
-  RoleController,
-  AuthController,
   StockController,
   MisplacementController,
 } from './controllers'
@@ -19,16 +17,8 @@ import { authRouter } from "./modules/auth/routes"
 
 const router = Router()
 
-const authController         = new AuthController()
-const roleController         = new RoleController()
 const stockController        = new StockController()
 const misplacementController = new MisplacementController()
-
-router.post('/login', authController.authenticateUserHandle)
-router.post('/refresh-token', authController.refreshTokenUserHandle)
-
-router.post('/roles', ensureAuthenticated, roleController.createRoleHandle)
-router.get('/roles', ensureAuthenticated, roleController.getRolesHandle)
 
 router.post('/stock-new-batch', ensureAuthenticated, stockController.createNewBatchHandle)
 router.get('/stock-products', ensureAuthenticated, stockController.getStockProductsHandle)

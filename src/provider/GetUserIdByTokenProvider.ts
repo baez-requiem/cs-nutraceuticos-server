@@ -1,5 +1,4 @@
 import { verify } from "jsonwebtoken"
-import { client } from "../prisma/client"
 
 class GetUserIdByTokenProvider {
   async execute(authToken: string) {

@@ -11,38 +11,39 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  name         String
-  username     String         @unique
-  password     String
+  id            String          @id @default(uuid())
+  name          String
+  username      String          @unique
+  password      String
   //
-  active       Boolean        @default(false)
+  active        Boolean         @default(false)
   //
-  phone        String?        @db.VarChar(15)
-  rg           String?        @db.VarChar(10)
-  cpf          String?        @db.VarChar(11)
-  notes        String?
-  initial_date DateTime?
+  phone         String?         @db.VarChar(15)
+  rg            String?         @db.VarChar(10)
+  cpf           String?         @db.VarChar(11)
+  notes         String?
+  initial_date  DateTime?
   //
-  cep          String?        @db.VarChar(8)
-  state        String?        @db.VarChar(2)
-  city         String?        @db.VarChar(30)
-  neighborhood String?        @db.VarChar(50)
-  address      String?        @db.VarChar(50)
-  complement   String?        @db.VarChar(50)
+  cep           String?         @db.VarChar(8)
+  state         String?         @db.VarChar(2)
+  city          String?         @db.VarChar(30)
+  neighborhood  String?         @db.VarChar(50)
+  address       String?         @db.VarChar(50)
+  complement    String?         @db.VarChar(50)
   //
-  roleId       String
-  role         Role           @relation(fields: [roleId], references: [id])
+  roleId        String
+  role          Role            @relation(fields: [roleId], references: [id])
   //
-  salesTeamId  String?
-  salesTeam    SalesTeam?     @relation(fields: [salesTeamId], references: [id])
+  salesTeamId   String?
+  salesTeam     SalesTeam?      @relation(fields: [salesTeamId], references: [id])
   //
-  created_at   DateTime       @default(now())
-  updated_at   DateTime?
-  RefreshToken RefreshToken[]
-  Misplacement Misplacement[]
-  Sale         Sale[]
-  Batch        Batch[]
+  created_at    DateTime        @default(now())
+  updated_at    DateTime?
+  RefreshToken  RefreshToken[]
+  Misplacement  Misplacement[]
+  Sale          Sale[]
+  Batch         Batch[]
+  LogisticInfos LogisticInfos[]
 
   @@map("users")
 }
@@ -265,6 +266,9 @@ model MotoBoy {
 
 model LogisticInfos {
   id               String        @id @default(uuid())
+  //
+  id_user          String
+  user             User          @relation(fields: [id_user], references: [id])
   //
   id_sale_status   String
   sale_status      SaleStatus    @relation(fields: [id_sale_status], references: [id])

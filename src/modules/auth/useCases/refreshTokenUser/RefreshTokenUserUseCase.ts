@@ -1,15 +1,14 @@
 import dayjs from "dayjs"
 
-import { client } from "../../prisma/client"
-import { GenerateTokenProvider } from "../../provider/GenerateTokenProvider"
-import { GenerateRefreshTokenProvider } from "../../provider/GenerateRefreshTokenProvider"
+import { client } from "../../../../prisma/client"
+import { GenerateTokenProvider } from "../../../../provider/GenerateTokenProvider"
+import { GenerateRefreshTokenProvider } from "../../../../provider/GenerateRefreshTokenProvider"
+import { RefreshTokenUserRequestDTO } from "./RefreshTokenUserRequestDTO"
 
 class RefreshTokenUserUseCase {
-  async execute(refresh_token: string) {
+  async execute({ refresh_token }: RefreshTokenUserRequestDTO) {
     const refreshToken = await client.refreshToken.findFirst({
-      where: {
-        id: refresh_token
-      }
+      where: {  id: refresh_token }
     })
 
     if (!refreshToken) {

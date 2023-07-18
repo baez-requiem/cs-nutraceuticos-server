@@ -1,29 +1,29 @@
 import { compare } from 'bcryptjs'
-import { client } from "../../prisma/client"
-import { GenerateRefreshTokenProvider } from '../../provider/GenerateRefreshTokenProvider'
-import { GenerateTokenProvider } from '../../provider/GenerateTokenProvider'
-
-interface IRequest {
-  username: string
-  password: string
-}
+import { client } from "../../../../prisma/client"
+import { GenerateRefreshTokenProvider } from '../../../../provider/GenerateRefreshTokenProvider'
+import { GenerateTokenProvider } from '../../../../provider/GenerateTokenProvider'
+import { AuthenticateUserRequestDTO } from './AuthenticateUserRequestDTO'
+import { AuthenticateUserSchema } from './AuthenticateUserSchema'
+import { parseSchema } from '../../../../utils/zod.utils'
 
 class AuthenticateUserUseCase {
 
-  async execute({ username, password }: IRequest) {
+  async execute(request: AuthenticateUserRequestDTO) {
+    const { username, password } = parseSchema(AuthenticateUserSchema, request)
+
     const userAlreadyExists = await client.user.findFirst({
       where: { username },
       include: { role: true }
     })
 
     if (!userAlreadyExists) {
-      throw new Error("Usuário ou senha incorretos")
+      throw new Error("Incorrect username or password")
     }
 
     const passwordMatch = await compare(password, userAlreadyExists.password)
 
     if (!passwordMatch) {
-      throw new Error("Usuário ou senha incorretos")
+      throw new Error("Incorrect username or password")
     }
     
     const generateTokenProvider = new GenerateTokenProvider()

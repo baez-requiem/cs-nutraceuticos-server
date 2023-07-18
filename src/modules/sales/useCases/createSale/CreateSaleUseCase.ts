@@ -20,6 +20,7 @@ class CreateSaleUseCase {
     const logisticInfos = await client.logisticInfos.create({
       data: {
         id_sale: sale.id,
+        id_user: data.id_user,
         id_sale_status: 'aguardando-aprovacao'
       }
     })

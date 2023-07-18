@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 export const CreateNewLogisticInfoSchema = z.object({
+  id_user: z.string().nonempty(),
   id_sale: z.string().nonempty(),
   id_sale_status: z.string().nonempty(),
   id_delivery_type: z.string().nonempty(),
