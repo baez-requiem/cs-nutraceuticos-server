@@ -8,5 +8,3 @@ export const CreateMisplacementSchema = z.object({
     quantity: z.number({ required_error: 'Quantidade é obrigatório' }).min(1)
   }).array()
 })
-
-export type CreateMisplacementSchemaType = z.infer<typeof CreateMisplacementSchema>

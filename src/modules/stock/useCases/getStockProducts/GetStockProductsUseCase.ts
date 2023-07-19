@@ -1,25 +1,16 @@
 import { Prisma } from '@prisma/client'
-import { client } from '../../prisma/client'
-import { formatErrorsZod } from '../../utils/zod.utils'
-import { GetStockProductsSchema, GetStockProductsSchemaType } from './getStockProductsSchema'
-
-interface IGetStockProducts extends GetStockProductsSchemaType {}
+import { client } from '../../../../prisma/client'
+import { GetStockProductsRequestDTO } from './GetStockProductsRequestDTO'
 
 class GetStockProductsUseCase {
   
-  async execute(query: IGetStockProducts) {
-    const validateQuery = GetStockProductsSchema.safeParse(query)
-
-    if (!validateQuery.success) {
-      formatErrorsZod(validateQuery.error)
-      return
-    }
-
-    const validQuery = validateQuery.data
+  async execute(request: GetStockProductsRequestDTO) {
 
     const whereProducts: Prisma.ProductWhereInput = {}
 
-    typeof validQuery?.active == 'boolean' && (whereProducts.active = !!validQuery.active)
+    if (request?.active) {
+      whereProducts.active = request.active == 'true'
+    }
 
     const products = await client.product.findMany({
       where: whereProducts,
@@ -43,8 +34,8 @@ class GetStockProductsUseCase {
       return { ...data, total }
     })
 
-    if (typeof validQuery.in_stock == 'boolean') {
-      return productsWithTotal.filter(p => validQuery.in_stock ? (p.total > 0) : (p.total <= 0)) 
+    if (request?.in_stock) {
+      return productsWithTotal.filter(p => request.in_stock == 'true' ? (p.total > 0) : (p.total <= 0)) 
     }
 
     return productsWithTotal
