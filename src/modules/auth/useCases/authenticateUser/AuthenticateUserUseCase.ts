@@ -16,10 +16,13 @@ class AuthenticateUserUseCase {
       include: { role: true }
     })
 
+    
+
     if (!userAlreadyExists) {
       throw new Error("Incorrect username or password")
     }
 
+    
     const passwordMatch = await compare(password, userAlreadyExists.password)
 
     if (!passwordMatch) {

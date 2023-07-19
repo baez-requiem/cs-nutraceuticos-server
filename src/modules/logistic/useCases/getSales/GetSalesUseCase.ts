@@ -9,7 +9,12 @@ class GetSalesUseCase {
         media: true,
         payment_type: true,
         LogisticInfos: { 
-          include: { sale_status: true },
+          include: {
+            sale_status: true,
+            motoboy: true,
+            delivery_type: true,
+            user: true
+          },
           orderBy: { created_at: 'desc' }
         },
         sales_team: true,

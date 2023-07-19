@@ -40,7 +40,7 @@ class UpdateUserUseCase {
     const { password: _password, ...user } = await client.user.update({
       where: { id },
       data: {
-        ...data,
+        ...dataToUpdate,
         updated_at: new Date().toISOString()
       }
     })

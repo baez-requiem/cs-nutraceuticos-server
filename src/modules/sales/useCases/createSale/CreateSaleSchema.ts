@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const CreateSaleSchema = z.object({
-  id_user: z.string(),
+  id_user: z.string().nonempty(),
   id_sales_team: z.string().nonempty().nullable().optional(),
   
   name: z.string().nonempty(),
