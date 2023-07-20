@@ -1,10 +1,12 @@
 import { Request, Response } from 'express'
 import { GetMotoboysUseCase } from './GetMotoboysUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class GetMotoboysController {
+class GetMotoboysController extends BaseController {
   private useCase: GetMotoboysUseCase
 
   constructor (useCase: GetMotoboysUseCase) {
+    super()
     this.useCase = useCase;
   }
 

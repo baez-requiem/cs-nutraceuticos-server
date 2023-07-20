@@ -257,6 +257,8 @@ model SaleStatus {
 model MotoBoy {
   id            String          @id @default(uuid())
   name          String
+  phone         String?
+  active        Boolean         @default(false)
   notes         String?
   created_at    DateTime        @default(now())
   LogisticInfos LogisticInfos[]

@@ -3,7 +3,7 @@ import { BaseController } from '../../../../shared/core/BaseController'
 
 import { GetBatchesUseCase } from './GetBatchesUseCase'
 
-class GetBatchesController extends BaseController{
+class GetBatchesController extends BaseController {
   private useCase: GetBatchesUseCase
 
   constructor (useCase: GetBatchesUseCase) {
