@@ -1,18 +1,34 @@
 import { Request, Response } from 'express'
 import { GetSalesUseCase } from './GetSalesUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { GetSalesSchema } from './GetSalesSchema'
 
-class GetSalesController {
+class GetSalesController extends BaseController {
   private useCase: GetSalesUseCase
 
   constructor (useCase: GetSalesUseCase) {
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
 
-    const data = await this.useCase.execute()
+    const dto = parseSchemaDTO(GetSalesSchema, request.query)
 
-    response.json(data)
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
+
+    try {
+      
+      const data = await this.useCase.execute(dto)
+  
+      return this.ok(response, data)
+    } catch (error) {
+      return this.fail(response, error)
+    }
+
   }
 }
 

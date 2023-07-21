@@ -1,9 +1,16 @@
+import { Prisma } from '@prisma/client'
 import { client } from '../../../../prisma/client'
+import { GetSalesRequestDTO } from './GetSalesRequestDTO'
+import { salesWhere } from './utils'
 
 class GetSalesUseCase {
   
-  async execute() {
+  async execute(request: GetSalesRequestDTO) {
+
+    const where = salesWhere(request)
+
     const sales = await client.sale.findMany({
+      where,
       orderBy: { created_at: 'desc' },
       include: {
         media: true,
@@ -30,6 +37,10 @@ class GetSalesUseCase {
       sale_products: SaleProducts,
       logistic_infos: LogisticInfos
     }))
+
+    if (request.status) {
+      return salesMap.filter(sale => sale.logistic_infos[0].id_sale_status === request.status)
+    }
 
     return salesMap
   }
