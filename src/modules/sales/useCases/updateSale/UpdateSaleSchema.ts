@@ -1,10 +1,11 @@
 import { z } from "zod"
+import { onlyNumbers } from "../../../../utils/number"
 
 export const UpdateSaleSchema = z.object({
   id: z.string().nonempty(),
   
   name: z.string().nonempty(),
-  phone: z.string().nonempty(),
+  phone: z.string().nonempty().transform(v => onlyNumbers(v)),
 
   rg: z.string().optional(),
   cpf: z.string().optional(),
