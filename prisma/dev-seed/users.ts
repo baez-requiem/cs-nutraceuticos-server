@@ -6,5 +6,13 @@ export const users = [
     password: "123",
     active: true,
     roleId: "master"
-  }
+  },
+  {
+    id: 'leo',
+    name: "Leonardo D.",
+    username: "leo",
+    password: "123",
+    active: true,
+    roleId: "seller"
+  },
 ]

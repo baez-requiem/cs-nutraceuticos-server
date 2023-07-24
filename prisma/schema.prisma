@@ -192,39 +192,41 @@ model MisplacementProducts {
 }
 
 model Sale {
-  id              String          @id @default(uuid())
-  name            String
-  phone           String
-  rg              String?
-  cpf             String?
-  email           String?
+  id                String          @id @default(uuid())
+  name              String
+  phone             String
+  rg                String?
+  cpf               String?
+  email             String?
   //
-  cep             String?
-  state           String?
-  city            String?
-  neighborhood    String?
-  address         String?
-  complement      String?
+  cep               String?
+  state             String?
+  city              String?
+  neighborhood      String?
+  address           String?
+  complement        String?
   //
-  media_id        String
-  media           Media           @relation(fields: [media_id], references: [id])
+  card_installments Int?
   //
-  payment_type_id String
-  payment_type    PaymentType     @relation(fields: [payment_type_id], references: [id])
+  media_id          String
+  media             Media           @relation(fields: [media_id], references: [id])
   //
-  id_user         String
-  user            User            @relation(fields: [id_user], references: [id])
+  payment_type_id   String
+  payment_type      PaymentType     @relation(fields: [payment_type_id], references: [id])
   //
-  id_sales_team   String?
-  sales_team      SalesTeam?      @relation(fields: [id_sales_team], references: [id])
+  id_user           String
+  user              User            @relation(fields: [id_user], references: [id])
   //
-  discounts       Float           @default(0)
-  notes           String?
-  SaleProducts    SaleProducts[]
+  id_sales_team     String?
+  sales_team        SalesTeam?      @relation(fields: [id_sales_team], references: [id])
   //
-  created_at      DateTime        @default(now())
-  updated_at      DateTime?
-  LogisticInfos   LogisticInfos[]
+  discounts         Float           @default(0)
+  notes             String?
+  SaleProducts      SaleProducts[]
+  //
+  created_at        DateTime        @default(now())
+  updated_at        DateTime?
+  LogisticInfos     LogisticInfos[]
 
   @@map("sales")
 }

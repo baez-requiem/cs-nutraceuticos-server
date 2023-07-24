@@ -1,7 +1,7 @@
 export const paymentTypes = [
-  { name: 'Boleto' },
-  { name: 'Cartão Débito' },
-  { name: 'Boleto Crédito' },
-  { name: 'Pix' },
-  { name: 'Dinheiro' },
+  { id: 'deposit', name: 'Depósito' },
+  { id: 'credit_card', name: 'Cartão Crédito' },
+  { id: 'debit_card', name: 'Cartão Débito' },
+  { id: 'pix', name: 'Pix' },
+  { id: 'cash', name: 'Dinheiro' },
 ]
