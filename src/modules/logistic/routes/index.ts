@@ -8,6 +8,7 @@ import { getDeliveryTypesController } from '../useCases/getDeliveryTypes'
 import { getMotoboysController } from '../useCases/getMotoboys'
 import { createMotoboyController } from '../useCases/createMotoboy'
 import { updateMotoboyController } from '../useCases/updateMotoboy'
+import { deleteMotoboyController } from '../useCases/deleteMotoboy'
 
 import { createNewLogisticInfoController } from '../useCases/createNewLogisticInfo'
 
@@ -20,6 +21,7 @@ logisticRouter.get('/delivery-types', ensureAuthenticated, (req, res) => getDeli
 logisticRouter.get('/motoboys', ensureAuthenticated, (req, res) => getMotoboysController.exec(req, res))
 logisticRouter.put('/motoboys', ensureAuthenticated, (req, res) => updateMotoboyController.exec(req, res))
 logisticRouter.post('/motoboys', ensureAuthenticated, (req, res) => createMotoboyController.exec(req, res))
+logisticRouter.delete('/motoboys', ensureAuthenticated, (req, res) => deleteMotoboyController.exec(req, res))
 
 logisticRouter.post('/logistic-info', ensureAuthenticated, (req, res) => createNewLogisticInfoController.execute(req, res))
 

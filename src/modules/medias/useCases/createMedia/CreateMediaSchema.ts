@@ -1,8 +1,8 @@
 import { z } from "zod"
 
 export const CreateMediaSchema = z.object({
-  name: z.string(),
+  name: z.string().nonempty(),
   description: z.string().optional(),
   notes: z.string().optional(),
-  active: z.boolean().optional().default(false),
+  active: z.boolean().optional(),
 })

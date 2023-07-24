@@ -1,31 +1,27 @@
 import { client } from '../../../../prisma/client'
 import { hash } from 'bcryptjs'
-import { CreateUserSchema } from './CreateUserSchema'
 import { CreateUserRequestDTO } from './CreateUserRequestDTO'
-import { parseSchema } from '../../../../utils/zod.utils'
 
 class CreateUserUseCase {
   
-  async execute(request: CreateUserRequestDTO) {
-
-    const { password, ...validData } = parseSchema(CreateUserSchema, request)
+  async execute({ password, ...data }: CreateUserRequestDTO) {
 
     const userAlreadyExists = await client.user.findFirst({
-      where: { username: validData.username }
+      where: { username: data.username }
     })
 
     if (userAlreadyExists) {
       throw new Error("Nome de usuário já existe!")
     }
 
-    const roleExists = await client.role.findFirst({ where: { id: validData.roleId } })
+    const roleExists = await client.role.findFirst({ where: { id: data.roleId } })
 
-    if (validData.roleId && !roleExists) {
+    if (data.roleId && !roleExists) {
       throw new Error("Tipo de usuário não existe!")
     }
     
-    if (validData.salesTeamId) {
-      const salesTeamExists = await client.salesTeam.findFirst({ where: { id: validData.salesTeamId } })
+    if (data.salesTeamId) {
+      const salesTeamExists = await client.salesTeam.findFirst({ where: { id: data.salesTeamId } })
       
       if (!salesTeamExists) {
         throw new Error("Tipo de usuário não existe!")
@@ -36,12 +32,14 @@ class CreateUserUseCase {
 
     const { password: _password, ...user } = await client.user.create({
       data: {
-        ...validData,
+        ...data,
         password: passwordHash
       }
     })
 
-    return { ...user, role: roleExists }
+    const ok = !!user.id
+
+    return ok
   }
 }
 

@@ -8,9 +8,9 @@ import { updateSalesTeamController } from '../useCases/updateSalesTeam'
 
 const salesTeamsRouter = Router()
 
-salesTeamsRouter.get('', ensureAuthenticated, (req, res) => getSalesTeamController.execute(req, res))
-salesTeamsRouter.put('', ensureAuthenticated, (req, res) => updateSalesTeamController.execute(req, res))
-salesTeamsRouter.post('', ensureAuthenticated, (req, res) => createSalesTeamController.execute(req, res))
-salesTeamsRouter.delete('', ensureAuthenticated, (req, res) => deleteSalesTeamController.execute(req, res))
+salesTeamsRouter.get('', ensureAuthenticated, (req, res) => getSalesTeamController.exec(req, res))
+salesTeamsRouter.put('', ensureAuthenticated, (req, res) => updateSalesTeamController.exec(req, res))
+salesTeamsRouter.post('', ensureAuthenticated, (req, res) => createSalesTeamController.exec(req, res))
+salesTeamsRouter.delete('', ensureAuthenticated, (req, res) => deleteSalesTeamController.exec(req, res))
 
 export { salesTeamsRouter }

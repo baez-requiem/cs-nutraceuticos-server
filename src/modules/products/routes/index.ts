@@ -8,9 +8,9 @@ import { updateProductController } from '../useCases/updateProduct'
 
 const productsRouter = Router()
 
-productsRouter.get('', ensureAuthenticated, (req, res) => getProductsController.execute(req, res))
-productsRouter.put('', ensureAuthenticated, (req, res) => updateProductController.execute(req, res))
-productsRouter.post('', ensureAuthenticated, (req, res) => createProductController.execute(req, res))
-productsRouter.delete('', ensureAuthenticated, (req, res) => deleteProductController.execute(req, res))
+productsRouter.get('', ensureAuthenticated, (req, res) => getProductsController.exec(req, res))
+productsRouter.put('', ensureAuthenticated, (req, res) => updateProductController.exec(req, res))
+productsRouter.post('', ensureAuthenticated, (req, res) => createProductController.exec(req, res))
+productsRouter.delete('', ensureAuthenticated, (req, res) => deleteProductController.exec(req, res))
 
 export { productsRouter }

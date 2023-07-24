@@ -1,19 +1,19 @@
 import { Request, Response } from 'express'
-import { DeleteUserUseCase } from './DeleteUserUseCase'
+import { DeleteMotoboyUseCase } from './DeleteMotoboyUseCase'
 import { BaseController } from '../../../../shared/core/BaseController'
-import { parseSchemaDTO } from '../../../../utils/zod.utils'
-import { DeleteUserSchema } from './DeleteUserSchema'
+import { parseSchemaDTO } from '../../../../utils/zod.utils';
+import { DeleteMotoboySchema } from './DeleteMotoboySchema';
 
-class DeleteUserController extends BaseController {
-  private useCase: DeleteUserUseCase
+class DeleteMotoboyController extends BaseController {
+  private useCase: DeleteMotoboyUseCase
 
-  constructor (useCase: DeleteUserUseCase) {
-    super()
-    this.useCase = useCase
+  constructor (useCase: DeleteMotoboyUseCase) {
+    super();
+    this.useCase = useCase;
   }
 
   async execute (request: Request, response: Response) {
-    const dto = parseSchemaDTO(DeleteUserSchema, request.body)
+    const dto = parseSchemaDTO(DeleteMotoboySchema, request.body)
 
     if ('errors' in dto) {
       return this.clientError(response, dto.errors)
@@ -32,4 +32,4 @@ class DeleteUserController extends BaseController {
   }
 }
 
-export { DeleteUserController }
+export { DeleteMotoboyController }

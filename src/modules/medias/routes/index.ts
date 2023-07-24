@@ -8,9 +8,9 @@ import { updateMediaController } from '../useCases/updateMedia'
 
 const mediasRouter = Router()
 
-mediasRouter.get('', ensureAuthenticated, (req, res) => getMediasController.execute(req, res))
-mediasRouter.put('', ensureAuthenticated, (req, res) => updateMediaController.execute(req, res))
-mediasRouter.post('', ensureAuthenticated, (req, res) => createMediaController.execute(req, res))
-mediasRouter.delete('', ensureAuthenticated, (req, res) => deleteMediaController.execute(req, res))
+mediasRouter.get('', ensureAuthenticated, (req, res) => getMediasController.exec(req, res))
+mediasRouter.put('', ensureAuthenticated, (req, res) => updateMediaController.exec(req, res))
+mediasRouter.post('', ensureAuthenticated, (req, res) => createMediaController.exec(req, res))
+mediasRouter.delete('', ensureAuthenticated, (req, res) => deleteMediaController.exec(req, res))
 
 export { mediasRouter }

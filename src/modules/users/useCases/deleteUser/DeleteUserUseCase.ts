@@ -1,4 +1,5 @@
 import { client } from '../../../../prisma/client'
+import { DeleteUserRequestDTO } from './DeleteUserRequestDTO'
 
 interface IUserRequest {
   id: string
@@ -6,12 +7,8 @@ interface IUserRequest {
 
 class DeleteUserUseCase {
   
-  async execute({ id }: IUserRequest) {
-    if (!id) {
-      throw new Error("Informe o id do usuário!")
-    }
-
-    await client.user.delete({
+  async execute({ id }: DeleteUserRequestDTO) {
+    const user = await client.user.delete({
       where: { id }
     })
 
@@ -19,7 +16,9 @@ class DeleteUserUseCase {
       where: { userId: id }
     })
 
-    return { status: true }
+    const ok = !!user.id
+
+    return ok
   }
 }
 

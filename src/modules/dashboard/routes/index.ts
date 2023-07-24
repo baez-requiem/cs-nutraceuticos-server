@@ -17,6 +17,8 @@ import { getMonthSalesBySalesTeamController } from '../useCases/getMonthSalesByS
 
 import { getMonthStatisticsResumeController } from '../useCases/getMonthStatisticsResume'
 
+import { getSellerDashboardController } from '../useCases/getSellerDashboard'
+
 const dashboardRouter = Router()
 
 dashboardRouter.get('/daily-statistics', ensureAuthenticated, (req, res) => getDailyStatisticsController.execute(req, res))
@@ -34,5 +36,7 @@ dashboardRouter.get('/daily-sales-by-sales-team', ensureAuthenticated, (req, res
 dashboardRouter.get('/month-sales-by-sales-team', ensureAuthenticated, (req, res) => getMonthSalesBySalesTeamController.execute(req, res))
 
 dashboardRouter.get('/month-statistics-resume', ensureAuthenticated, (req, res) => getMonthStatisticsResumeController.execute(req, res))
+
+dashboardRouter.get('/seller-resume', ensureAuthenticated, (req, res) => getSellerDashboardController.exec(req, res))
 
 export { dashboardRouter }

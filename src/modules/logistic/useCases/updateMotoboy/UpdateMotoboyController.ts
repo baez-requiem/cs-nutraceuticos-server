@@ -25,7 +25,7 @@ class UpdateMotoboyController extends BaseController {
       const result = await this.useCase.execute(dto)
       
       return result
-        ? this.created(response)
+        ? this.ok(response)
         : this.fail(response)
     } catch (error) {
       return this.fail(response, error)

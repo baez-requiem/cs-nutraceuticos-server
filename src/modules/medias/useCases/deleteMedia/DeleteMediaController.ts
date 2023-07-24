@@ -1,18 +1,35 @@
 import { Request, Response } from 'express'
 import { DeleteMediaUseCase } from './DeleteMediaUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { DeleteMediasSchema } from './DeleteMediaSchema'
 
-class DeleteMediaController {
+class DeleteMediaController extends BaseController {
   private useCase: DeleteMediaUseCase
 
   constructor (useCase: DeleteMediaUseCase) {
+    super()
     this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
 
-    const data = await this.useCase.execute(request.body)
+    const dto = parseSchemaDTO(DeleteMediasSchema, request.body)
 
-    response.json(data)
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
+
+    try {
+      const result = await this.useCase.execute(request.body)
+
+      return result
+        ? this.ok(response)
+        : this.fail(response)
+      
+    } catch (error) {
+      return  this.fail(response)
+    }
   }
 }
 

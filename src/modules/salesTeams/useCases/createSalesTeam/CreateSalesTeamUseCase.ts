@@ -1,17 +1,17 @@
 import { client } from '../../../../prisma/client'
-import { CreateSalesTeamSchema } from './CreateSalesTeamSchema'
 import { CreateSalesTeamRequestDTO } from './CreateSalesTeamRequestDTO'
-import { parseSchema } from '../../../../utils/zod.utils'
 
 class CreateSalesTeamUseCase {
   
   async execute(request: CreateSalesTeamRequestDTO) {
 
-    const data = parseSchema(CreateSalesTeamSchema, request)
+    const salesTeam = await client.salesTeam.create({
+      data: request
+    })
 
-    const saleTeam = await client.salesTeam.create({ data })
+    const ok = !!salesTeam.id
 
-    return saleTeam
+    return ok
   }
 }
 

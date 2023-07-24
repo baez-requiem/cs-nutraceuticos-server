@@ -1,14 +1,10 @@
 import { hash } from 'bcryptjs'
 import { client } from '../../../../prisma/client'
-import { UpdateUserSchema } from './UpdateUserSchema'
 import { UpdateUserRequestDTO } from './UpdateUserRequestDTO'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { Prisma } from '@prisma/client'
 
 class UpdateUserUseCase {
-  async execute(request: UpdateUserRequestDTO) {
-    const { id, ...data } = parseSchema(UpdateUserSchema, request)
-
+  async execute({ id, ...data }: UpdateUserRequestDTO) {
     const dataToUpdate: Prisma.UserUpdateArgs['data'] = {
       ...data,
       updated_at: new Date().toISOString()
@@ -16,9 +12,13 @@ class UpdateUserUseCase {
     
     if (data.roleId) {
       const roleExists = await client.role.findFirst({ where: { id: data.roleId } })
-
+      
       if (!roleExists) {
         throw new Error("Tipo de usuário não existe!")
+      }
+
+      if (data.roleId !== 'seller') {
+        dataToUpdate.salesTeamId = null
       }
     }
 
@@ -45,9 +45,9 @@ class UpdateUserUseCase {
       }
     })
 
-    // TODO: se o usuario for diferente de seller, desvincular o usuario de um time
+    const ok = !!user.id
 
-    return user
+    return ok
   }
 }
 

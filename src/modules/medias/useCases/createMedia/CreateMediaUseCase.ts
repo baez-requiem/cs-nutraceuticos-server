@@ -6,11 +6,11 @@ import { CreateMediaSchema } from './CreateMediaSchema'
 class CreateMediaUseCase {
   
   async execute(request: CreateMediaRequestDTO) {
-    const data = parseSchema(CreateMediaSchema, request)
+    const media = await client.media.create({ data: request })
 
-    const media = await client.media.create({ data })
+    const ok = !!media.id
 
-    return media
+    return ok
   }
 }
 

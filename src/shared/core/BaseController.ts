@@ -31,11 +31,11 @@ export abstract class BaseController {
 
   public clientError (res: Response, error: string | object[]) {
     if (typeof error == 'string') {
-      return res.sendStatus(400).json({
+      return res.status(400).json({
         message: error
       })
     } else {
-      return res.sendStatus(400).json({
+      return res.status(400).json({
         message: 'Error',
         erros: error
       })

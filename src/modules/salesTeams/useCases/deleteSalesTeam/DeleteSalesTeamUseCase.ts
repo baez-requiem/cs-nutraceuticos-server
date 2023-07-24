@@ -1,14 +1,11 @@
 import { client } from '../../../../prisma/client'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { DeleteSalesTeamRequestDTO } from './DeleteSalesTeamRequestDTO'
-import { DeleteSalesTeamSchema } from './DeleteSalesTeamSchema'
 
 class DeleteSalesTeamUseCase {
   
-  async execute(request: DeleteSalesTeamRequestDTO) {
-   const { id } = parseSchema(DeleteSalesTeamSchema, request)
+  async execute({ id }: DeleteSalesTeamRequestDTO) {
 
-    await client.salesTeam.delete({
+    const salesTeam = await client.salesTeam.delete({
       where: { id }
     })
 
@@ -17,7 +14,9 @@ class DeleteSalesTeamUseCase {
       data: { salesTeamId: null }
     })
 
-    return { status: true }
+    const ok = !!salesTeam.id
+
+    return ok
   }
 }
 

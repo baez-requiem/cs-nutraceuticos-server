@@ -5,14 +5,14 @@ import { DeleteProductSchema } from './DeleteProductSchema'
 
 class DeleteProductUseCase {
   
-  async execute(request: DeleteProductRequestDTO) {
-    const { id } = parseSchema(DeleteProductSchema, request)
-    
-    await client.product.delete({
+  async execute({ id }: DeleteProductRequestDTO) {    
+    const product = await client.product.delete({
       where: { id }
     })
 
-    return { status: true }
+    const ok = !!product.id
+
+    return ok
   }
 }
 

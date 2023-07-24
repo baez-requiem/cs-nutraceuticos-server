@@ -1,18 +1,34 @@
 import { Request, Response } from 'express'
 import { CreateMediaUseCase } from './CreateMediaUseCase'
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { CreateMediaSchema } from './CreateMediaSchema'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class CreateMediaController {
+class CreateMediaController extends BaseController {
   private useCase: CreateMediaUseCase
 
   constructor (useCase: CreateMediaUseCase) {
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
+    const dto = parseSchemaDTO(CreateMediaSchema, request.body)
 
-    const data = await this.useCase.execute(request.body)
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
 
-    response.json(data)
+    try {
+      const result = await this.useCase.execute(dto)
+
+      return result
+        ? this.created(response)
+        : this.fail(response)
+      
+    } catch (error) {
+      this.fail(response, error)
+    }
   }
 }
 

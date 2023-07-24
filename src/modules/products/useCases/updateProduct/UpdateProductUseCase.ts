@@ -1,12 +1,9 @@
 import { client } from '../../../../prisma/client'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { UpdateProductRequestDTO } from './UpdateProductRequestDTO'
-import { UpdateProductSchema } from './updateProductSchema'
 
 class UpdateProductUseCase {
   
-  async execute(request: UpdateProductRequestDTO) {
-    const { id, ...data } = parseSchema(UpdateProductSchema, request)
+  async execute({ id, ...data }: UpdateProductRequestDTO) {
 
     const product = await client.product.update({
       where: { id },
@@ -16,7 +13,9 @@ class UpdateProductUseCase {
       }
     })
 
-    return product
+    const ok = !!product.id
+
+    return ok
   }
 }
 

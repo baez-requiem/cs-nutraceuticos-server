@@ -2,9 +2,9 @@ import { z } from "zod"
 
 export const UpdateUserSchema = z.object({
   id: z.string().nonempty(),
-  name:         z.string().nonempty('Nome é obrigatório').optional(),
-  username:     z.string().nonempty('Usuário é obrigatório').optional(),
-  password:     z.string().nonempty('Senha é obrigatório').optional(),
+  name:         z.string().nonempty().optional(),
+  username:     z.string().nonempty().optional(),
+  password:     z.string().transform(val => val || undefined).optional(),
   initial_date: z.nullable(z.string().transform(val => val ? new Date(val).toISOString() : null)).default(null).optional(),
   active:       z.boolean().optional(),
   phone:        z.string().optional(),

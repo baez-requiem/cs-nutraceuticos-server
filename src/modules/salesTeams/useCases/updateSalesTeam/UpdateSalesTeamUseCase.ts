@@ -5,9 +5,7 @@ import { UpdateSalesTeamSchema } from './UpdateSalesTeamSchema'
 
 class UpdateSalesTeamUseCase {
   
-  async execute(request: UpdateSalesTeamRequestDTO) {
-
-    const { id, ...data } = parseSchema(UpdateSalesTeamSchema, request)
+  async execute({ id, ...data }: UpdateSalesTeamRequestDTO) {
 
     const salesTeam = await client.salesTeam.update({
       where: { id },
@@ -17,7 +15,9 @@ class UpdateSalesTeamUseCase {
       }
     })
 
-    return salesTeam
+    const ok = !!salesTeam.id
+
+    return ok
   }
 }
 

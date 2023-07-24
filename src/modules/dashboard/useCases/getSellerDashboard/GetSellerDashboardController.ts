@@ -1,41 +1,41 @@
 import { Request, Response } from 'express'
+import { GetSellerDashboardUseCase } from './GetSellerDashboardUseCase'
 import { BaseController } from '../../../../shared/core/BaseController'
-
-import { UpdateBatchUseCase } from './UpdateBatchUseCase'
-import { UpdateBatchSchema } from './UpdateBatchSchema'
 import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { GetSellerDashboardSchema } from './GetSellerDashboardSchema'
 import { GetUserIdByTokenProvider } from '../../../../provider/GetUserIdByTokenProvider'
 
-class UpdateBatchController extends BaseController{
-  private useCase: UpdateBatchUseCase
+class GetSellerDashboardController extends BaseController {
+  private useCase: GetSellerDashboardUseCase
 
-  constructor (useCase: UpdateBatchUseCase) {
+  constructor (useCase: GetSellerDashboardUseCase) {
     super()
     this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
+
     const getUserIdByTokenProvider = new GetUserIdByTokenProvider()
 
     const authToken = request.headers.authorization!
     const id_user = await getUserIdByTokenProvider.execute(authToken)
 
-    const dto = parseSchemaDTO(UpdateBatchSchema, { ...request.body, id_user })
+    const dto = parseSchemaDTO(GetSellerDashboardSchema, { id_user })
 
     if ('errors' in dto) {
       return this.clientError(response, dto.errors)
     }
 
     try {
-      const result = await this.useCase.execute(dto)
       
-      return result
-        ? this.ok(response)
-        : this.fail(response)
+      const data = await this.useCase.execute(dto)
+  
+      return this.ok(response, data)
     } catch (error) {
       return this.fail(response, error)
     }
+
   }
 }
 
-export { UpdateBatchController }
+export { GetSellerDashboardController }

@@ -1,18 +1,34 @@
 import { Request, Response } from 'express'
 import { CreateProductUseCase } from './CreateProductUseCase'
+import { BaseController } from '../../../../shared/core/BaseController';
+import { parseSchemaDTO } from '../../../../utils/zod.utils';
+import { CreateProductSchema } from './CreateProductSchema';
 
-class CreateProductController {
+class CreateProductController extends BaseController {
   private useCase: CreateProductUseCase
 
   constructor (useCase: CreateProductUseCase) {
+    super()
     this.useCase = useCase;
   }
 
   async execute (request: Request, response: Response) {
+    const dto = parseSchemaDTO(CreateProductSchema, request.body)
 
-    const data = await this.useCase.execute(request.body)
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
 
-    response.json(data)
+    try {
+      const data = await this.useCase.execute(dto)
+
+      return data?.id
+        ? this.created(response)
+        : this.fail(response)
+      
+    } catch (error) {
+      this.fail(response, error)
+    }
   }
 }
 

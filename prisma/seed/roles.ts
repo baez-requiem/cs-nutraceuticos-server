@@ -6,5 +6,9 @@ export const roles = [
   {
     id: "seller",
     name: "Vendedor",
+  },
+  {
+    id: "admin",
+    name: "Administrador",
   }
 ]
