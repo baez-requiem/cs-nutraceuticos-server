@@ -12,4 +12,7 @@ export const GetSalesSchema = z.object({
 
   client_name: z.string().nonempty().optional(),
   client_phone: z.string().nonempty().optional(),
+
+  delivery_type: z.string().nonempty().optional(),
+  motoboy: z.string().nonempty().optional(),
 })

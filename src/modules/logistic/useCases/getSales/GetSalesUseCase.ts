@@ -32,14 +32,21 @@ class GetSalesUseCase {
       }
     })
 
-    const salesMap = sales.map(({ SaleProducts, LogisticInfos, ...sale}) => ({
+    let salesMap = sales.map(({ SaleProducts, LogisticInfos, ...sale}) => ({
       ...sale,
       sale_products: SaleProducts,
       logistic_infos: LogisticInfos
     }))
 
     if (request.status) {
-      return salesMap.filter(sale => sale.logistic_infos[0].id_sale_status === request.status)
+      salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_sale_status === request.status)
+    }
+
+    if (request.delivery_type) {
+      salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_delivery_type === request.delivery_type)
+    }
+    if (request.motoboy) {
+      salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_motoboy === request.motoboy)
     }
 
     return salesMap

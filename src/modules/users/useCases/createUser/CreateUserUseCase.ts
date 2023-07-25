@@ -26,6 +26,8 @@ class CreateUserUseCase {
       if (!salesTeamExists) {
         throw new Error("Tipo de usuário não existe!")
       }
+    } else {
+      data.salesTeamId = null
     }
 
     const passwordHash = await hash(password.toString(), 8)

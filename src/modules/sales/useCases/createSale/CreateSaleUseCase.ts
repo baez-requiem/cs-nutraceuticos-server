@@ -7,12 +7,12 @@ class CreateSaleUseCase {
 
   async execute(request: CreateSaleRequestDTO) {
 
-    const { products , ...data } = parseSchema(CreateSaleSchema, request)
+    const { products, card_installments, ...data } = parseSchema(CreateSaleSchema, request)
 
     const sale = await client.sale.create({
       data: {
         ...data,
-        card_installments: data.payment_type_id === 'credit_card' ? data.card_installments : null
+        card_installments: (data.payment_type_id === 'credit_card' ? card_installments : null)
       }
     })
 

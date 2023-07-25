@@ -53,9 +53,9 @@ class GetSellerDashboardUseCase {
       const day = d.date()
       const label = d.format('DD/MM')
      
-      const sale = salesWeek.find(s => dayjs(s.created_at).date() === day)
+      const sales = salesWeek.filter(s => dayjs(s.created_at).date() === day)
 
-      const value = sale?.SaleProducts.reduce((pv, cv) => pv + cv.sales_quantity, 0) || 0
+      const value = sales.reduce((pv, cv) => pv + cv.SaleProducts.reduce((pv2, cv2) => pv2 + cv2.sales_quantity, 0), 0)
 
       totalSalesPerDay.push({ label, value })
     }
