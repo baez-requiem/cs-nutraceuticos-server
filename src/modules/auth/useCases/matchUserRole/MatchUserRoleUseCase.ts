@@ -18,7 +18,7 @@ class MatchUserRoleUseCase {
     }
 
     const roles = await client.role.findMany({
-      where: { name: { in: [...data.roles, 'Master'] } },
+      where: { id: { in: [...data.roles, 'master'] } },
       select: { id: true }
     })
 
