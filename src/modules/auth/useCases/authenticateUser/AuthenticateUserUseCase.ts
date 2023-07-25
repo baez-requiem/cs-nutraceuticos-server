@@ -14,15 +14,12 @@ class AuthenticateUserUseCase {
     const userAlreadyExists = await client.user.findFirst({
       where: { username },
       include: { role: true }
-    })
-
-    
+    })    
 
     if (!userAlreadyExists) {
       throw new Error("Incorrect username or password")
     }
 
-    
     const passwordMatch = await compare(password, userAlreadyExists.password)
 
     if (!passwordMatch) {
@@ -41,7 +38,17 @@ class AuthenticateUserUseCase {
     const generateRefreshToken = new GenerateRefreshTokenProvider()
     const refreshToken = await generateRefreshToken.execute(userAlreadyExists.id)
 
-    return { token, refreshToken, user: { role: userAlreadyExists.role?.name } }
+    const result = {
+      token,
+      refreshToken,
+      user: {
+        id: userAlreadyExists.id,
+        name: userAlreadyExists.name,
+        role: userAlreadyExists.role?.name
+      }
+    }
+
+    return result
   }
 
 }

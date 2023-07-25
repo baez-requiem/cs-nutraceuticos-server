@@ -1,3 +1,5 @@
+import { PrismaClient } from "@prisma/client"
+
 export const saleStatus = [
   { id: 'aguardando-aprovacao', status: "Aguardando aprovação", color: 'yellow_600' },
   { id: 'aprovada', status: "Aprovada", color: 'green_600' },
@@ -8,3 +10,9 @@ export const saleStatus = [
   { id: 'retorno', status: "Retorno", color: 'orange_500' },
   { id: 'enviada', status: "Enviada", color: 'purple_600' }
 ]
+
+export const insertSaleStatus = async (client: PrismaClient) => {
+  for (let status of saleStatus) {
+    await client.saleStatus.create({ data: status })
+  }
+}
