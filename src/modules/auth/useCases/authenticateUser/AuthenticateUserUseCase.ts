@@ -16,7 +16,7 @@ class AuthenticateUserUseCase {
       include: { role: true }
     })    
 
-    if (!userAlreadyExists) {
+    if (!userAlreadyExists || !userAlreadyExists.active) {
       throw new Error("Incorrect username or password")
     }
 
