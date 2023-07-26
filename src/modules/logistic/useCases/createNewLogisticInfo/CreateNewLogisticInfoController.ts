@@ -18,7 +18,7 @@ class CreateNewLogisticInfoController {
 
     const data = await this.useCase.execute({ ...request.body, id_user})
 
-    response.sendStatus(201).json(data)
+    response.status(201).json(data)
   }
 }
 

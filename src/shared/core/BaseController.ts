@@ -21,12 +21,12 @@ export abstract class BaseController {
       res.type('application/json')
       return res.status(200).json(dto)
     } else {
-      return res.status(200);
+      return res.sendStatus(200);
     }
   }
 
   public created (res: Response) {
-    return res.status(201);
+    return res.sendStatus(201);
   }
 
   public clientError (res: Response, error: string | object[]) {
