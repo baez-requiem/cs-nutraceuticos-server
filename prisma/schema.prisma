@@ -193,6 +193,7 @@ model MisplacementProducts {
 
 model Sale {
   id                String          @id @default(uuid())
+  number            Int             @default(autoincrement())
   name              String
   phone             String
   rg                String?
@@ -207,6 +208,7 @@ model Sale {
   complement        String?
   //
   card_installments Int?
+  paid Boolean @default(false)
   //
   media_id          String
   media             Media           @relation(fields: [media_id], references: [id])

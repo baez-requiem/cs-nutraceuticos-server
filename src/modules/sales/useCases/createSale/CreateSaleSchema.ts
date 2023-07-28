@@ -9,6 +9,7 @@ export const CreateSaleSchema = z.object({
   phone: z.string().nonempty().transform(v => onlyNumbers(v)),
 
   card_installments: z.number().positive().max(10).optional().nullable(),
+  paid: z.boolean().optional(),
 
   rg: z.string().optional(),
   cpf: z.string().optional(),
