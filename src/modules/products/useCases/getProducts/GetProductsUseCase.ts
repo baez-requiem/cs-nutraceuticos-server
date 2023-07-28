@@ -4,7 +4,8 @@ class GetProductsUseCase {
   
   async execute() {
     const products = await client.product.findMany({
-      orderBy: { id: 'asc' }
+      orderBy: { id: 'asc' },
+      where: { deleted: false }
     })
 
     return products

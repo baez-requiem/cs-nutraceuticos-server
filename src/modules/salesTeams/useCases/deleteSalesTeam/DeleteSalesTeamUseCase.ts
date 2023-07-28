@@ -5,8 +5,9 @@ class DeleteSalesTeamUseCase {
   
   async execute({ id }: DeleteSalesTeamRequestDTO) {
 
-    const salesTeam = await client.salesTeam.delete({
-      where: { id }
+    const salesTeam = await client.salesTeam.update({
+      where: { id },
+      data: { deleted: true }
     })
 
     await client.user.updateMany({

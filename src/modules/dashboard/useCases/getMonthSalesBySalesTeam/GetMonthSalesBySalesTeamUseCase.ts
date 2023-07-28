@@ -15,11 +15,7 @@ class GetMonthSalesBySalesTeamUseCase {
               select: {
                 quantity: true,
                 sales_quantity: true,
-                product: {
-                  select: {
-                    amount: true,
-                  }
-                }
+                unit_value: true
               }
             }
           },
@@ -38,7 +34,7 @@ class GetMonthSalesBySalesTeamUseCase {
         const resumeSale = salesTeam.Sale.map(sale => ({
           discounts: sale.discounts,
           sales_quantity: sale.SaleProducts.reduce((pv, cv) => pv + cv.sales_quantity, 0),
-          total_amount: sale.SaleProducts.reduce((pv, cv) => pv + (cv.product.amount * cv.quantity), 0),
+          total_amount: sale.SaleProducts.reduce((pv, cv) => pv + (cv.unit_value * cv.quantity), 0),
           products: sale.SaleProducts.reduce((pv, cv) => pv + cv.quantity, 0)
         })).reduce((pv, cv) => ({
           discounts: pv.discounts + cv.discounts,

@@ -14,11 +14,7 @@ class GetMonthStatisticsResumeUseCase {
           gte: date
         }
       },
-      include: {
-        SaleProducts: {
-          include: { product: true }
-        }
-      }
+      include: { SaleProducts: true }
     })
 
     const monthStatisticsResume: {}[] = []
@@ -29,7 +25,7 @@ class GetMonthStatisticsResumeUseCase {
 
       const amount = sales
         .filter(sale => dayjs(sale.created_at).date() === day)
-        .map(sale => (sale.SaleProducts.reduce((pv, cv) => pv + (cv.quantity * cv.product.amount),0) - sale.discounts))
+        .map(sale => (sale.SaleProducts.reduce((pv, cv) => pv + (cv.quantity * cv.unit_value), 0) - sale.discounts))
         .reduce((pv, cv) => pv + cv, 0) || 0
 
       monthStatisticsResume.push({

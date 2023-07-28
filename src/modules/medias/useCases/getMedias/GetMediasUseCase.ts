@@ -11,7 +11,8 @@ class GetMediasUseCase {
     const medias = await client.media.findMany({
       orderBy: { id: 'asc' },
       where: {
-        active: data.active && { equals: data.active === 'true' }
+        active: data.active && { equals: data.active === 'true' },
+        deleted: false
       }
     })
 

@@ -1,13 +1,12 @@
 import { client } from '../../../../prisma/client'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { DeleteProductRequestDTO } from './DeleteProductRequestDTO'
-import { DeleteProductSchema } from './DeleteProductSchema'
 
 class DeleteProductUseCase {
   
   async execute({ id }: DeleteProductRequestDTO) {    
-    const product = await client.product.delete({
-      where: { id }
+    const product = await client.product.update({
+      where: { id },
+      data: { deleted: true }
     })
 
     const ok = !!product.id

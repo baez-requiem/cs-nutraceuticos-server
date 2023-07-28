@@ -5,8 +5,9 @@ class DeleteMediaUseCase {
   
   async execute({ id }: DeleteMediaRequestDTO) {
 
-    const media = await client.media.delete({
-      where: { id }
+    const media = await client.media.update({
+      where: { id },
+      data: { deleted: true }
     })
 
     const ok = !!media.id

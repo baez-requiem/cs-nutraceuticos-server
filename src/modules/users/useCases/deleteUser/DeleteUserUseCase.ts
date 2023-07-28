@@ -1,15 +1,12 @@
 import { client } from '../../../../prisma/client'
 import { DeleteUserRequestDTO } from './DeleteUserRequestDTO'
 
-interface IUserRequest {
-  id: string
-}
-
 class DeleteUserUseCase {
   
   async execute({ id }: DeleteUserRequestDTO) {
-    const user = await client.user.delete({
-      where: { id }
+    const user = await client.user.update({
+      where: { id },
+      data: { deleted: true }
     })
 
     await client.refreshToken.deleteMany({

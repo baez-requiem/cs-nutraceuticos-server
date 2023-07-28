@@ -16,7 +16,17 @@ class CreateSaleUseCase {
       }
     })
 
-    const dataSaleProducts = products.map(sp => ({ ...sp, id_sale: sale.id }))
+    const dbProducts = await client.product.findMany({
+      where: {
+        id: { in: products.map(p => p.id_product) }
+      }
+    })
+
+    const dataSaleProducts = products.map(sp => {
+      const unit_value = dbProducts.find(dbp => dbp.id === sp.id_product)?.amount!
+      
+      return { ...sp, id_sale: sale.id, unit_value }
+    })
 
     const saleProducts = await client.saleProducts.createMany({
       data: dataSaleProducts

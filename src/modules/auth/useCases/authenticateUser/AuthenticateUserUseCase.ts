@@ -12,11 +12,15 @@ class AuthenticateUserUseCase {
     const { username, password } = parseSchema(AuthenticateUserSchema, request)
 
     const userAlreadyExists = await client.user.findFirst({
-      where: { username },
+      where: {
+        username,
+        active: true,
+        deleted: false
+      },
       include: { role: true }
     })    
 
-    if (!userAlreadyExists || !userAlreadyExists.active) {
+    if (!userAlreadyExists) {
       throw new Error("Incorrect username or password")
     }
 

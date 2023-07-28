@@ -6,20 +6,14 @@ class GetDailyStatisticsUseCase {
   async execute() {
     const sales = await client.sale.findMany({
       where: {
-        created_at : {
-          gte: startDay().toISOString()
-        }
+        created_at : { gte: startDay().toISOString() }
       },
-      include: {
-        SaleProducts: {
-          include: { product: true }
-        }
-      }
+      include: { SaleProducts: true }
     })
 
     const dailyStatistics = sales.map(sale => {
       const totalSales = sale.SaleProducts.reduce((pv, cv) => pv + cv.sales_quantity, 0)
-      const totalAmount = sale.SaleProducts.reduce((pv, cv) => pv + (cv.product.amount * cv.quantity), 0) - sale.discounts
+      const totalAmount = sale.SaleProducts.reduce((pv, cv) => pv + (cv.unit_value * cv.quantity), 0) - sale.discounts
       const totalProducts = sale.SaleProducts.reduce((pv, cv) => pv + cv.quantity, 0)
 
       return {

@@ -25,9 +25,8 @@ class GetUserUseCase {
       orderBy: { name: 'asc' },
       include: { role: true },
       where: {
-        roleId: {
-          not: 'master'
-        }
+        roleId: { not: 'master' },
+        deleted: false
       }
     })
 

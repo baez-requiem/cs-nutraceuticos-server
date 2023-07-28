@@ -4,7 +4,8 @@ class GetSalesTeamUseCase {
   
   async execute() {
     const salesTeam = await client.salesTeam.findMany({
-      orderBy: { name: 'asc' }
+      orderBy: { name: 'asc' },
+      where: { deleted: false }
     })
 
     return salesTeam

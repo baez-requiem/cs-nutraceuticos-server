@@ -6,7 +6,9 @@ class GetStockProductsUseCase {
   
   async execute(request: GetStockProductsRequestDTO) {
 
-    const whereProducts: Prisma.ProductWhereInput = {}
+    const whereProducts: Prisma.ProductWhereInput = {
+      deleted: false
+    }
 
     if (request?.active) {
       whereProducts.active = request.active == 'true'

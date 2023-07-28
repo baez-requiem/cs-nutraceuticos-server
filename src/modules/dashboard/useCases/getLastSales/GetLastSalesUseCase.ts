@@ -15,11 +15,9 @@ class GetLastSalesUseCase {
         SaleProducts: {
           select: {
             quantity: true,
+            unit_value: true,
             product: {
-              select: {
-                name: true,
-                amount: true
-              }
+              select: { name: true }
             }
           }
         }
@@ -31,7 +29,7 @@ class GetLastSalesUseCase {
       const products = sale.SaleProducts.map(sp => ({ 
         quantity: sp.quantity,
         name: sp.product.name,
-        amount: sp.product.amount,
+        amount: sp.unit_value,
       }))
 
       const total = products.reduce((pv, cv) => pv + (cv.amount * cv.quantity),0)

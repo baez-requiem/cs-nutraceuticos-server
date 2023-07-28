@@ -17,6 +17,7 @@ model User {
   password      String
   //
   active        Boolean         @default(false)
+  deleted       Boolean         @default(false)
   //
   phone         String?         @db.VarChar(15)
   rg            String?         @db.VarChar(10)
@@ -73,6 +74,7 @@ model Product {
   description            String?
   notes                  String?
   active                 Boolean                @default(false)
+  deleted                Boolean                @default(false)
   amount                 Float
   supply_quantity_notice Int?
   created_at             DateTime               @default(now())
@@ -91,6 +93,7 @@ model Media {
   description String?
   notes       String?
   active      Boolean   @default(false)
+  deleted      Boolean   @default(false)
   created_at  DateTime  @default(now())
   updated_at  DateTime?
   Sale        Sale[]
@@ -102,6 +105,7 @@ model SalesTeam {
   id         String    @id @default(uuid())
   name       String    @db.VarChar(100)
   notes      String?
+  deleted    Boolean   @default(false)
   created_at DateTime  @default(now())
   updated_at DateTime?
   User       User[]
@@ -208,7 +212,7 @@ model Sale {
   complement        String?
   //
   card_installments Int?
-  paid Boolean @default(false)
+  paid              Boolean         @default(false)
   //
   media_id          String
   media             Media           @relation(fields: [media_id], references: [id])
@@ -235,6 +239,7 @@ model Sale {
 
 model SaleProducts {
   id             String   @id @default(uuid())
+  unit_value     Float
   //
   id_product     String
   product        Product  @relation(fields: [id_product], references: [id])
@@ -263,6 +268,7 @@ model MotoBoy {
   name          String
   phone         String?
   active        Boolean         @default(false)
+  deleted       Boolean         @default(false)
   notes         String?
   created_at    DateTime        @default(now())
   LogisticInfos LogisticInfos[]
