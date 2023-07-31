@@ -1,12 +1,14 @@
 import { Request, Response } from 'express'
 import { UpdateSaleUseCase } from './UpdateSaleUseCase'
 import { GetUserByAuthProvider } from '../../../../provider/GetUserByTokenProvider'
+import { BaseController } from '../../../../shared/core/BaseController';
 
-class UpdateSaleController {
+class UpdateSaleController extends BaseController {
   private useCase: UpdateSaleUseCase
 
   constructor (useCase: UpdateSaleUseCase) {
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
@@ -16,13 +18,20 @@ class UpdateSaleController {
     const authToken = request.headers.authorization!
     const user = await getTokenSubjectProvider.execute(authToken)
 
-    const data = await this.useCase.execute({
-      ...request.body,
-      id_user: user?.id,
-      id_sales_team: user?.salesTeamId
-    })
+    try {
+      const data = await this.useCase.execute({
+        ...request.body,
+        id_user: user?.id,
+        id_sales_team: user?.salesTeamId
+      })
 
-    response.json(data)
+      return data 
+        ? this.ok(response)
+        : this.fail(response)
+      
+    } catch (error) {
+      this.fail(response, error)      
+    }
   }
 }
 
