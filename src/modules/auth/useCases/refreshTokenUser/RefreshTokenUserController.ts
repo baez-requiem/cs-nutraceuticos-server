@@ -5,7 +5,7 @@ import { RefreshTokenUserUseCase } from './RefreshTokenUserUseCase'
 import { RefreshTokenUserSchema } from './RefreshTokenUserSchema'
 import { parseSchemaDTO } from '../../../../utils/zod.utils'
 
-class RefreshTokenUserController extends BaseController{
+class RefreshTokenUserController extends BaseController {
   private useCase: RefreshTokenUserUseCase
 
   constructor (useCase: RefreshTokenUserUseCase) {

@@ -3,13 +3,10 @@ import { client } from "../../../../prisma/client"
 import { GenerateRefreshTokenProvider } from '../../../../provider/GenerateRefreshTokenProvider'
 import { GenerateTokenProvider } from '../../../../provider/GenerateTokenProvider'
 import { AuthenticateUserRequestDTO } from './AuthenticateUserRequestDTO'
-import { AuthenticateUserSchema } from './AuthenticateUserSchema'
-import { parseSchema } from '../../../../utils/zod.utils'
 
 class AuthenticateUserUseCase {
 
-  async execute(request: AuthenticateUserRequestDTO) {
-    const { username, password } = parseSchema(AuthenticateUserSchema, request)
+  async execute({ username, password }: AuthenticateUserRequestDTO) {
 
     const userAlreadyExists = await client.user.findFirst({
       where: {

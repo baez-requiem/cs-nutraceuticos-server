@@ -1,15 +1,11 @@
 import { client } from '../../../../prisma/client'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { MatchUserRoleRequestDTO } from './MatchUserRoleRequestDTO'
-import { MatchUserRoleSchema } from './MatchUserRoleSchema'
 
 class MatchUserRoleUseCase {
   async execute(request: MatchUserRoleRequestDTO) {
 
-    const data = parseSchema(MatchUserRoleSchema, request)
-
     const user = await client.user.findFirst({
-      where: { id: data.id_user },
+      where: { id: request.id_user },
       select: { roleId: true }
     })
 
@@ -18,7 +14,7 @@ class MatchUserRoleUseCase {
     }
 
     const roles = await client.role.findMany({
-      where: { id: { in: [...data.roles, 'master'] } },
+      where: { id: { in: [...request.roles, 'master'] } },
       select: { id: true }
     })
 
