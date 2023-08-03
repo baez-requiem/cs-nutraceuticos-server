@@ -11,15 +11,17 @@ class DeleteMisplacementUseCase {
       throw new Error("Informe o id do lote!")
     }
 
-    await client.misplacementProducts.deleteMany({
+    const misplacementProducts = await client.misplacementProducts.deleteMany({
       where: { id_misplacement: id }
     })
 
-    await client.misplacement.delete({
+    const misplacement = await client.misplacement.delete({
       where: { id }
     })
 
-    return { status: true }
+    const ok = !!misplacementProducts.count && !!misplacement.id
+
+    return ok
   }
 }
 

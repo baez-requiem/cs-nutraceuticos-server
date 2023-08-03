@@ -26,7 +26,9 @@ class UpdateBatchUseCase {
       })
     }
 
-    return !!batch.id
+    const ok = !!batch.id
+
+    return ok
   }
 }
 

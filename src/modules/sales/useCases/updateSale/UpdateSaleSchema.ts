@@ -24,7 +24,7 @@ export const UpdateSaleSchema = z.object({
   media_id: z.string().nonempty(),
   payment_type_id: z.string().nonempty(),
   
-  discounts: z.number().default(0),
+  discounts: z.number().optional(),
   notes: z.string().optional(),
 
   products: z.object({

@@ -20,9 +20,9 @@ class CreateProductController extends BaseController {
     }
 
     try {
-      const data = await this.useCase.execute(dto)
+      const result = await this.useCase.execute(dto)
 
-      return data?.id
+      return result
         ? this.created(response)
         : this.fail(response)
       

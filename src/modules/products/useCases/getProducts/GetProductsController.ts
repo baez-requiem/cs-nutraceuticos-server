@@ -14,7 +14,7 @@ class GetProductsController extends BaseController {
     try {
       const result = await this.useCase.execute()
 
-      return result
+      return Array.isArray(result)
         ? this.ok(response, result)
         : this.fail(response)
       

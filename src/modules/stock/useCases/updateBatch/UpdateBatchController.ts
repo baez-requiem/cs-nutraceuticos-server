@@ -4,7 +4,7 @@ import { BaseController } from '../../../../shared/core/BaseController'
 import { UpdateBatchUseCase } from './UpdateBatchUseCase'
 import { UpdateBatchSchema } from './UpdateBatchSchema'
 import { parseSchemaDTO } from '../../../../utils/zod.utils'
-import { GetUserIdByTokenProvider } from '../../../../provider/GetUserIdByTokenProvider'
+import { GetUserByRequestProvider } from '../../../../provider'
 
 class UpdateBatchController extends BaseController{
   private useCase: UpdateBatchUseCase
@@ -15,10 +15,8 @@ class UpdateBatchController extends BaseController{
   }
 
   async execute (request: Request, response: Response) {
-    const getUserIdByTokenProvider = new GetUserIdByTokenProvider()
-
-    const authToken = request.headers.authorization!
-    const id_user = await getUserIdByTokenProvider.execute(authToken)
+    const getUserByRequestProvider = new GetUserByRequestProvider()
+    const id_user = await getUserByRequestProvider.execute(request)
 
     const dto = parseSchemaDTO(UpdateBatchSchema, { ...request.body, id_user })
 

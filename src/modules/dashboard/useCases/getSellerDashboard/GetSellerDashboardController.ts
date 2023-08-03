@@ -3,7 +3,7 @@ import { GetSellerDashboardUseCase } from './GetSellerDashboardUseCase'
 import { BaseController } from '../../../../shared/core/BaseController'
 import { parseSchemaDTO } from '../../../../utils/zod.utils'
 import { GetSellerDashboardSchema } from './GetSellerDashboardSchema'
-import { GetUserIdByTokenProvider } from '../../../../provider/GetUserIdByTokenProvider'
+import { GetUserByRequestProvider } from '../../../../provider'
 
 class GetSellerDashboardController extends BaseController {
   private useCase: GetSellerDashboardUseCase
@@ -15,10 +15,8 @@ class GetSellerDashboardController extends BaseController {
 
   async execute (request: Request, response: Response) {
 
-    const getUserIdByTokenProvider = new GetUserIdByTokenProvider()
-
-    const authToken = request.headers.authorization!
-    const id_user = await getUserIdByTokenProvider.execute(authToken)
+    const getUserByRequestProvider = new GetUserByRequestProvider()
+    const id_user = await getUserByRequestProvider.execute(request)
 
     const dto = parseSchemaDTO(GetSellerDashboardSchema, { id_user })
 
@@ -27,7 +25,6 @@ class GetSellerDashboardController extends BaseController {
     }
 
     try {
-      
       const data = await this.useCase.execute(dto)
   
       return this.ok(response, data)

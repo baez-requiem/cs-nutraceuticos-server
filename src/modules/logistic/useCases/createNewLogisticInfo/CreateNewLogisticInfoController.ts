@@ -1,24 +1,38 @@
 import { Request, Response } from 'express'
 import { CreateNewLogisticInfoUseCase } from './CreateNewLogisticInfoUseCase'
-import { GetUserIdByTokenProvider } from '../../../../provider/GetUserIdByTokenProvider';
+import { BaseController } from '../../../../shared/core/BaseController'
+import { GetUserByRequestProvider } from '../../../../provider'
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { CreateNewLogisticInfoSchema } from './CreateNewLogisticInfoSchema'
 
-class CreateNewLogisticInfoController {
+class CreateNewLogisticInfoController extends BaseController {
   private useCase: CreateNewLogisticInfoUseCase
 
   constructor (useCase: CreateNewLogisticInfoUseCase) {
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
 
-    const getUserIdByTokenProvider = new GetUserIdByTokenProvider()
+    const getUserByRequestProvider = new GetUserByRequestProvider()
+    const id_user = await getUserByRequestProvider.execute(request)
 
-    const authToken = request.headers.authorization!
-    const id_user = await getUserIdByTokenProvider.execute(authToken)
+    const dto = parseSchemaDTO(CreateNewLogisticInfoSchema, { ...request.body, id_user })
+    
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
 
-    const data = await this.useCase.execute({ ...request.body, id_user})
-
-    response.status(201).json(data)
+    try {
+      const result = await this.useCase.execute(dto)
+      
+      return result
+        ? this.created(response)
+        : this.fail(response)
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

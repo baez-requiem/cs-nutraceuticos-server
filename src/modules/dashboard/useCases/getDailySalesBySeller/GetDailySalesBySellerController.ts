@@ -1,17 +1,23 @@
 import { Request, Response } from 'express'
 import { GetDailySalesBySellerUseCase } from './GetDailySalesBySellerUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class GetDailySalesBySellerController {
+class GetDailySalesBySellerController extends BaseController {
   private useCase: GetDailySalesBySellerUseCase
 
   constructor (useCase: GetDailySalesBySellerUseCase) {
+    super()
     this.useCase = useCase
   }
 
   async execute(_request: Request, response: Response) {
-    const data = await this.useCase.execute()
+    try {
+      const result = await this.useCase.execute()
 
-    response.json(data)
+      return this.ok(response, result)
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

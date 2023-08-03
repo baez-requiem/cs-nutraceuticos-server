@@ -1,17 +1,23 @@
 import { Request, Response } from 'express'
 import { GetMonthStatisticsUseCase } from './GetMonthStatisticsUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class GetMonthStatisticsController {
+class GetMonthStatisticsController extends BaseController {
   private useCase: GetMonthStatisticsUseCase
 
   constructor (useCase: GetMonthStatisticsUseCase) {
+    super()
     this.useCase = useCase
   }
 
-  async execute(request: Request, response: Response) {
-    const data = await this.useCase.execute()
+  async execute(_request: Request, response: Response) {
+    try {
+      const result = await this.useCase.execute()
 
-    response.json(data)
+      return this.ok(response, result)
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

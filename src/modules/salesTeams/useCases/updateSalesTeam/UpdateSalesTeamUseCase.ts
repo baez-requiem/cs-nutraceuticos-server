@@ -1,7 +1,5 @@
 import { client } from '../../../../prisma/client'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { UpdateSalesTeamRequestDTO } from './UpdateSalesTeamRequestDTO'
-import { UpdateSalesTeamSchema } from './UpdateSalesTeamSchema'
 
 class UpdateSalesTeamUseCase {
   

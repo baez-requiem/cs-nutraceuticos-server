@@ -1,17 +1,23 @@
 import { Request, Response } from 'express'
 import { GetMonthSalesBySellerUseCase } from './GetMonthSalesBySellerUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class GetMonthSalesBySellerController {
+class GetMonthSalesBySellerController extends BaseController {
   private useCase: GetMonthSalesBySellerUseCase
 
   constructor (useCase: GetMonthSalesBySellerUseCase) {
+    super()
     this.useCase = useCase
   }
 
   async execute(_request: Request, response: Response) {
-    const data = await this.useCase.execute()
+    try {
+      const result = await this.useCase.execute()
 
-    response.json(data)
+      return this.ok(response, result)
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

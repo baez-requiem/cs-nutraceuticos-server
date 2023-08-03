@@ -12,9 +12,16 @@ class GetMotoboysController extends BaseController {
 
   async execute (request: Request, response: Response) {
 
-    const data = await this.useCase.execute()
+    try {
+      const result = await this.useCase.execute()
 
-    response.json(data)
+      return Array.isArray(result)
+        ? this.ok(response, result)
+        : this.fail(response)
+
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

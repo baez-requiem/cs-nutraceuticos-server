@@ -14,15 +14,15 @@ import { createNewLogisticInfoController } from '../useCases/createNewLogisticIn
 
 const logisticRouter = Router()
 
-logisticRouter.get('/sales', ensureAuthenticated, (req, res) => getSalesController.execute(req, res))
-logisticRouter.get('/sale-status', ensureAuthenticated, (req, res) => getStatusController.execute(req, res))
-logisticRouter.get('/delivery-types', ensureAuthenticated, (req, res) => getDeliveryTypesController.execute(req, res))
+logisticRouter.get('/sales', ensureAuthenticated, (req, res) => getSalesController.exec(req, res))
+logisticRouter.get('/sale-status', ensureAuthenticated, (req, res) => getStatusController.exec(req, res))
+logisticRouter.get('/delivery-types', ensureAuthenticated, (req, res) => getDeliveryTypesController.exec(req, res))
 
 logisticRouter.get('/motoboys', ensureAuthenticated, (req, res) => getMotoboysController.exec(req, res))
 logisticRouter.put('/motoboys', ensureAuthenticated, (req, res) => updateMotoboyController.exec(req, res))
 logisticRouter.post('/motoboys', ensureAuthenticated, (req, res) => createMotoboyController.exec(req, res))
 logisticRouter.delete('/motoboys', ensureAuthenticated, (req, res) => deleteMotoboyController.exec(req, res))
 
-logisticRouter.post('/logistic-info', ensureAuthenticated, (req, res) => createNewLogisticInfoController.execute(req, res))
+logisticRouter.post('/logistic-info', ensureAuthenticated, (req, res) => createNewLogisticInfoController.exec(req, res))
 
 export { logisticRouter }

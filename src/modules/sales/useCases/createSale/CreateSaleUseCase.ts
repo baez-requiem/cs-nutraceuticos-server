@@ -1,13 +1,9 @@
 import { client } from '../../../../prisma/client'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { CreateSaleRequestDTO } from './CreateSaleRequestDTO'
-import { CreateSaleSchema } from './CreateSaleSchema'
 
 class CreateSaleUseCase {
 
-  async execute(request: CreateSaleRequestDTO) {
-
-    const { products, card_installments, ...data } = parseSchema(CreateSaleSchema, request)
+  async execute({ products, card_installments, ...data }: CreateSaleRequestDTO) {
 
     const sale = await client.sale.create({
       data: {
@@ -39,8 +35,10 @@ class CreateSaleUseCase {
         id_sale_status: 'aguardando-aprovacao'
       }
     })
+    
+    const ok = !!sale.id && !!saleProducts.count && !!logisticInfos.id
 
-    return { ...sale, products: saleProducts, logistic_infos: logisticInfos }
+    return ok
   }
 }
 

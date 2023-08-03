@@ -1,7 +1,10 @@
 import { Request, Response } from 'express'
 import { UpdateSaleUseCase } from './UpdateSaleUseCase'
-import { GetUserByAuthProvider } from '../../../../provider/GetUserByTokenProvider'
-import { BaseController } from '../../../../shared/core/BaseController';
+import { BaseController } from '../../../../shared/core/BaseController'
+import { GetUserByRequestProvider } from '../../../../provider'
+import { User } from '@prisma/client'
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { UpdateSaleSchema } from './UpdateSaleSchema'
 
 class UpdateSaleController extends BaseController {
   private useCase: UpdateSaleUseCase
@@ -13,24 +16,27 @@ class UpdateSaleController extends BaseController {
 
   async execute (request: Request, response: Response) {
 
-    const getTokenSubjectProvider = new GetUserByAuthProvider()
+    const getUserByRequestProvider = new GetUserByRequestProvider()
+    const user = await getUserByRequestProvider.execute(request, true) as User
 
-    const authToken = request.headers.authorization!
-    const user = await getTokenSubjectProvider.execute(authToken)
+    const dto = parseSchemaDTO(UpdateSaleSchema, {
+      ...request.body,
+      id_user: user?.id,
+      id_sales_team: user?.salesTeamId
+    })
+
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
 
     try {
-      const data = await this.useCase.execute({
-        ...request.body,
-        id_user: user?.id,
-        id_sales_team: user?.salesTeamId
-      })
+      const result = await this.useCase.execute(dto)
 
-      return data 
+      return result 
         ? this.ok(response)
         : this.fail(response)
-      
     } catch (error) {
-      this.fail(response, error)      
+      this.fail(response, error) 
     }
   }
 }

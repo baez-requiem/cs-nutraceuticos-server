@@ -1,12 +1,9 @@
 import { client } from '../../../../prisma/client'
-import { UpdateMediaSchema } from './UpdateMediaSchema'
-import { parseSchema } from '../../../../utils/zod.utils'
 import { UpdateMediaRequestDTO } from './UpdateMediaRequestDTO'
 
 class UpdateMediaUseCase {
   
-  async execute(request: UpdateMediaRequestDTO) {
-    const { id, ...data } = parseSchema(UpdateMediaSchema, request)
+  async execute({ id, ...data }: UpdateMediaRequestDTO) {
 
     const media = await client.media.update({
       where: { id },

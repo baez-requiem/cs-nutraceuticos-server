@@ -1,18 +1,27 @@
 import { Request, Response } from 'express'
 import { GetStatusUseCase } from './GetStatusUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class GetStatusController {
+class GetStatusController extends BaseController {
   private useCase: GetStatusUseCase
 
   constructor (useCase: GetStatusUseCase) {
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {
 
-    const data = await this.useCase.execute()
+    try {
+      const result = await this.useCase.execute()
 
-    response.json(data)
+      return Array.isArray(result)
+        ? this.ok(response, result)
+        : this.fail(response)
+
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

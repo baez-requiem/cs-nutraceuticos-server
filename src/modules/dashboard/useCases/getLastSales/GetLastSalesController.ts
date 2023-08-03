@@ -1,18 +1,23 @@
 import { Request, Response } from 'express'
 import { GetLastSalesUseCase } from './GetLastSalesUseCase'
+import { BaseController } from '../../../../shared/core/BaseController'
 
-class GetLastSalesController {
+class GetLastSalesController extends BaseController {
   private useCase: GetLastSalesUseCase
 
   constructor (useCase: GetLastSalesUseCase) {
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
-  async execute (request: Request, response: Response) {
+  async execute(_request: Request, response: Response) {
+    try {
+      const result = await this.useCase.execute()
 
-    const data = await this.useCase.execute()
-
-    response.json(data)
+      return this.ok(response, result)
+    } catch (error) {
+      return this.fail(response, error)
+    }
   }
 }
 

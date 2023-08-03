@@ -6,7 +6,7 @@ import { CreateMotoboySchema } from './CreateMotoboySchema'
 
 import { parseSchemaDTO } from '../../../../utils/zod.utils'
 
-class CreateMotoboyController extends BaseController{
+class CreateMotoboyController extends BaseController {
   private useCase: CreateMotoboyUseCase
 
   constructor (useCase: CreateMotoboyUseCase) {

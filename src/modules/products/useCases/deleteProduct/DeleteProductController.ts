@@ -1,15 +1,15 @@
 import { Request, Response } from 'express'
 import { DeleteProductUseCase } from './DeleteProductUseCase'
 import { BaseController } from '../../../../shared/core/BaseController'
-import { parseSchemaDTO } from '../../../../utils/zod.utils';
-import { DeleteProductSchema } from './DeleteProductSchema';
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { DeleteProductSchema } from './DeleteProductSchema'
 
 class DeleteProductController extends BaseController {
   private useCase: DeleteProductUseCase
 
   constructor (useCase: DeleteProductUseCase) {
-    super();
-    this.useCase = useCase;
+    super()
+    this.useCase = useCase
   }
 
   async execute (request: Request, response: Response) {

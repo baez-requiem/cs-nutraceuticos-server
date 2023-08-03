@@ -4,7 +4,7 @@ import { BaseController } from '../../../../shared/core/BaseController'
 import { CreateMisplacementUseCase } from './CreateMisplacementUseCase'
 import { CreateMisplacementSchema } from './CreateMisplacementSchema'
 import { parseSchemaDTO } from '../../../../utils/zod.utils'
-import { GetUserIdByTokenProvider } from '../../../../provider/GetUserIdByTokenProvider'
+import { GetUserByRequestProvider } from '../../../../provider'
 
 class CreateMisplacementController extends BaseController {
   private useCase: CreateMisplacementUseCase
@@ -16,10 +16,8 @@ class CreateMisplacementController extends BaseController {
 
   async execute (request: Request, response: Response) {
 
-    const getUserIdByTokenProvider = new GetUserIdByTokenProvider()
-
-    const authToken = request.headers.authorization!
-    const id_user = await getUserIdByTokenProvider.execute(authToken)
+    const getUserByRequestProvider = new GetUserByRequestProvider()
+    const id_user = await getUserByRequestProvider.execute(request)
 
     const dto = parseSchemaDTO(CreateMisplacementSchema, {...request.body, id_user})
 
