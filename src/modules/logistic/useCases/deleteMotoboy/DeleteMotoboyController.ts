@@ -20,7 +20,7 @@ class DeleteMotoboyController extends BaseController {
     }
 
     try {
-      const result = await this.useCase.execute(request.body)
+      const result = await this.useCase.execute(dto)
 
       return result
         ? this.ok(response)

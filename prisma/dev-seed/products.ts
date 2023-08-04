@@ -5,7 +5,7 @@ export const products = [
     "description": "teste de criação de produto 1",
     "notes": "testa anotações",
     "active": true,
-    "amount": 25
+    "amount": 250
   },
   {
     id: 'p2',
@@ -13,7 +13,7 @@ export const products = [
     "description": "teste de criação de produto 2",
     "notes": "testa anotações",
     "active": true,
-    "amount": 44.99
+    "amount": 244.99
   },
   {
     id: 'p3',
@@ -21,7 +21,7 @@ export const products = [
     "description": "teste de criação de produto 3",
     "notes": "testa anotações",
     "active": true,
-    "amount": 30
+    "amount": 300
   },
   {
     id: 'p4',
@@ -29,7 +29,7 @@ export const products = [
     "description": "teste de criação de produto 4",
     "notes": "testa anotações",
     "active": true,
-    "amount": 24.99
+    "amount": 124.99
   },
   {
     id: 'p5',
@@ -37,7 +37,7 @@ export const products = [
     "description": "teste de criação de produto 5",
     "notes": "",
     "active": true,
-    "amount": 9.99
+    "amount": 199.99
   },
   {
     id: 'p6',
@@ -45,7 +45,7 @@ export const products = [
     "description": "teste de criação de produto 6",
     "notes": "",
     "active": true,
-    "amount": 24.99
+    "amount": 224.99
   },
   {
     id: 'p7',
@@ -53,7 +53,7 @@ export const products = [
     "description": "teste de criação de produto 7",
     "notes": "",
     "active": false,
-    "amount": 22.59
+    "amount": 222.59
   },
   {
     id: 'p8',
@@ -61,7 +61,7 @@ export const products = [
     "description": "teste de criação de produto 8",
     "notes": "",
     "active": true,
-    "amount": 29.99
+    "amount": 129.99
   },
   {
     id: 'p9',
@@ -69,6 +69,6 @@ export const products = [
     "description": "teste de criação de produto 9",
     "notes": "",
     "active": true,
-    "amount": 19.99
+    "amount": 159.99
   }
 ]

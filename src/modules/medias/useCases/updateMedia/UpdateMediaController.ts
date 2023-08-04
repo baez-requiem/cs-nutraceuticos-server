@@ -20,7 +20,7 @@ class UpdateMediaController extends BaseController {
     }
 
     try {
-      const data = await this.useCase.execute(request.body)
+      const data = await this.useCase.execute(dto)
 
       return data
         ? this.ok(response)

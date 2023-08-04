@@ -20,7 +20,7 @@ class GetMediasController extends BaseController {
     }
 
     try {
-      const result = await this.useCase.execute(request.body)
+      const result = await this.useCase.execute(dto)
 
       return Array.isArray(result)
         ? this.ok(response, result)

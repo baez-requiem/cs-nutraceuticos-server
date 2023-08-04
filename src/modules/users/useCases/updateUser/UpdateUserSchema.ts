@@ -18,5 +18,5 @@ export const UpdateUserSchema = z.object({
   address:      z.string().optional(),
   complement:   z.string().optional(),
   roleId:       z.string().nonempty(),
-  salesTeamId:  z.nullable(z.string().optional().default('').transform(val => val || null)),
+  salesTeamId: z.string().nullish().optional(),
 })
