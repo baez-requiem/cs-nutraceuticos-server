@@ -93,7 +93,7 @@ model Media {
   description String?
   notes       String?
   active      Boolean   @default(false)
-  deleted      Boolean   @default(false)
+  deleted     Boolean   @default(false)
   created_at  DateTime  @default(now())
   updated_at  DateTime?
   Sale        Sale[]
@@ -213,6 +213,7 @@ model Sale {
   //
   card_installments Int?
   paid              Boolean         @default(false)
+  sales_quantity    Int
   //
   media_id          String
   media             Media           @relation(fields: [media_id], references: [id])
@@ -238,18 +239,17 @@ model Sale {
 }
 
 model SaleProducts {
-  id             String   @id @default(uuid())
-  unit_value     Float
+  id         String   @id @default(uuid())
+  unit_value Float
   //
-  id_product     String
-  product        Product  @relation(fields: [id_product], references: [id])
+  id_product String
+  product    Product  @relation(fields: [id_product], references: [id])
   //
-  id_sale        String
-  sale           Sale     @relation(fields: [id_sale], references: [id])
+  id_sale    String
+  sale       Sale     @relation(fields: [id_sale], references: [id])
   //
-  quantity       Int
-  sales_quantity Int
-  created_at     DateTime @default(now())
+  quantity   Int
+  created_at DateTime @default(now())
 
   @@map("sales_products")
 }
@@ -289,6 +289,7 @@ model LogisticInfos {
   id_delivery_type String?
   delivery_type    DeliveryType? @relation(fields: [id_delivery_type], references: [id])
   delivery_date    DateTime?     @default(now())
+  tracking_code    String?
   //
   id_motoboy       String?
   motoboy          MotoBoy?      @relation(fields: [id_motoboy], references: [id])

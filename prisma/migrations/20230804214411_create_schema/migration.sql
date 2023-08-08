@@ -5,6 +5,7 @@ CREATE TABLE "users" (
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "phone" VARCHAR(15),
     "rg" VARCHAR(10),
     "cpf" VARCHAR(11),
@@ -50,6 +51,7 @@ CREATE TABLE "products" (
     "description" TEXT,
     "notes" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT false,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "amount" DOUBLE PRECISION NOT NULL,
     "supply_quantity_notice" INTEGER,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,6 +67,7 @@ CREATE TABLE "medias" (
     "description" TEXT,
     "notes" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT false,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
@@ -76,6 +79,7 @@ CREATE TABLE "sales_team" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(100) NOT NULL,
     "notes" TEXT,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
@@ -152,6 +156,7 @@ CREATE TABLE "misplacement_products" (
 -- CreateTable
 CREATE TABLE "sales" (
     "id" TEXT NOT NULL,
+    "number" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "rg" TEXT,
@@ -164,6 +169,7 @@ CREATE TABLE "sales" (
     "address" TEXT,
     "complement" TEXT,
     "card_installments" INTEGER,
+    "paid" BOOLEAN NOT NULL DEFAULT false,
     "media_id" TEXT NOT NULL,
     "payment_type_id" TEXT NOT NULL,
     "id_user" TEXT NOT NULL,
@@ -179,6 +185,7 @@ CREATE TABLE "sales" (
 -- CreateTable
 CREATE TABLE "sales_products" (
     "id" TEXT NOT NULL,
+    "unit_value" DOUBLE PRECISION NOT NULL,
     "id_product" TEXT NOT NULL,
     "id_sale" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
@@ -203,6 +210,7 @@ CREATE TABLE "motoboy" (
     "name" TEXT NOT NULL,
     "phone" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT false,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "notes" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

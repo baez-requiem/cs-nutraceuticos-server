@@ -9,6 +9,7 @@ export const UpdateSaleSchema = z.object({
 
   card_installments: z.number().positive().max(10).optional().nullable(),
   paid: z.boolean().optional(),
+  sales_quantity: z.number().min(1).optional(),
 
   rg: z.string().optional(),
   cpf: z.string().optional(),
@@ -29,7 +30,6 @@ export const UpdateSaleSchema = z.object({
 
   products: z.object({
     id_product: z.string().nonempty(),
-    sales_quantity: z.number().min(1),
     quantity: z.number().min(1)
   }).array()
 })

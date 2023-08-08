@@ -17,7 +17,7 @@ class GetMonthStatisticsUseCase {
     })
 
     const monthStatistics = sales.map(sale => {
-      const totalSales = sale.SaleProducts.reduce((pv, cv) => pv + cv.sales_quantity, 0)
+      const totalSales = sale.sales_quantity
       const totalAmount = sale.SaleProducts.reduce((pv, cv) => pv + (cv.unit_value * cv.quantity), 0) - sale.discounts
       const totalProducts = sale.SaleProducts.reduce((pv, cv) => pv + cv.quantity, 0)
 

@@ -11,4 +11,5 @@ export const CreateNewLogisticInfoSchema = z.object({
   id_motoboy: z.string().nullable().transform(val => val || null).optional(),
   delivery_value: z.number(),
   notes: z.string().nullable().optional(),
+  tracking_code: z.string().nullable().optional(),
 })

@@ -17,8 +17,7 @@ class GetSellerDashboardUseCase {
           gte: startMonth.toISOString(),
           lte: endMonth.toISOString()
         }
-      },
-      select: { SaleProducts: { select: { sales_quantity: true } } }
+      }
     })
     
     const salesWeek = await client.sale.findMany({
@@ -28,10 +27,6 @@ class GetSellerDashboardUseCase {
           gte: startWeek.toISOString(),
           lte: endWeek.toISOString()
         }
-      },
-      select: {
-        SaleProducts: { select: { sales_quantity: true } },
-        created_at: true
       }
     })
     
@@ -42,8 +37,7 @@ class GetSellerDashboardUseCase {
           gte: startDay.toISOString(),
           lte: endDay.toISOString()
         }
-      },
-      select: { SaleProducts: { select: { sales_quantity: true } } }
+      }
     })
 
     const totalSalesPerDay = []
@@ -55,15 +49,15 @@ class GetSellerDashboardUseCase {
      
       const sales = salesWeek.filter(s => dayjs(s.created_at).date() === day)
 
-      const value = sales.reduce((pv, cv) => pv + cv.SaleProducts.reduce((pv2, cv2) => pv2 + cv2.sales_quantity, 0), 0)
+      const value = sales.reduce((pv, cv) => pv + cv.sales_quantity, 0)
 
       totalSalesPerDay.push({ label, value })
     }
 
     const resume = {
-      totalSalesMonth: salesMonth.reduce((pv, cv) => pv + cv.SaleProducts.reduce((pv2, cv2) => pv2 + cv2.sales_quantity, 0), 0),
-      totalSalesWeek: salesWeek.reduce((pv, cv) => pv + cv.SaleProducts.reduce((pv2, cv2) => pv2 + cv2.sales_quantity, 0), 0),
-      totalSalesDay: salesDay.reduce((pv, cv) => pv + cv.SaleProducts.reduce((pv2, cv2) => pv2 + cv2.sales_quantity, 0), 0),
+      totalSalesMonth: salesMonth.reduce((pv, cv) => pv + cv.sales_quantity, 0),
+      totalSalesWeek: salesWeek.reduce((pv, cv) => pv + cv.sales_quantity, 0),
+      totalSalesDay: salesDay.reduce((pv, cv) => pv + cv.sales_quantity, 0),
       totalSalesPerDay
     }
 

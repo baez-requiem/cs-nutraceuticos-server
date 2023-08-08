@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client"
 import { GetSalesRequestDTO } from "../GetSalesRequestDTO"
+import { onlyNumbers } from "../../../../../utils/number"
 
 export const salesWhere = (dto: GetSalesRequestDTO) => {
   const where: Prisma.SaleWhereInput = {}
@@ -21,7 +22,7 @@ export const salesWhere = (dto: GetSalesRequestDTO) => {
   if (dto.client_phone) {
     where.phone = {
       mode: 'insensitive',
-      contains: dto.client_phone
+      contains: onlyNumbers(dto.client_phone)
     }
   }
   
