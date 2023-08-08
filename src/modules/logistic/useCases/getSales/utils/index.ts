@@ -5,6 +5,12 @@ import { onlyNumbers } from "../../../../../utils/number"
 export const salesWhere = (dto: GetSalesRequestDTO) => {
   const where: Prisma.SaleWhereInput = {}
 
+  if (dto.number) {
+    where.number = parseInt(dto.number.toString())
+
+    return where
+  }
+
   if (dto.init_date || dto.end_date) {
     where.created_at = {
       gte: dto.init_date || undefined,

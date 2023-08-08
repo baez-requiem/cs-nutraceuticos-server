@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client'
 import { client } from '../../../../prisma/client'
 import { GetSalesRequestDTO } from './GetSalesRequestDTO'
 import { salesWhere } from './utils'
@@ -38,16 +37,19 @@ class GetSalesUseCase {
       logistic_infos: LogisticInfos
     }))
 
-    if (request.status) {
-      salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_sale_status === request.status)
+    if (!request.number) {
+      if (request.status) {
+        salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_sale_status === request.status)
+      }
+  
+      if (request.delivery_type) {
+        salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_delivery_type === request.delivery_type)
+      }
+      if (request.motoboy) {
+        salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_motoboy === request.motoboy)
+      }
     }
 
-    if (request.delivery_type) {
-      salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_delivery_type === request.delivery_type)
-    }
-    if (request.motoboy) {
-      salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_motoboy === request.motoboy)
-    }
 
     return salesMap
   }
