@@ -1,10 +1,12 @@
 import { Prisma } from '@prisma/client'
 import { client } from '../../../../prisma/client'
-import { GetMotoboysDTO } from './GetMotoboysSchema'
+
+import { GetMotoboysDTO } from './GetMotoboysRequestDTO'
+import { GetMotoboysResponseDTO } from './GetMotoboysResponseDTO'
 
 class GetMotoboysUseCase {
   
-  async execute(request: GetMotoboysDTO) {
+  async execute(request: GetMotoboysDTO): Promise<GetMotoboysResponseDTO> {
     const where: Prisma.MotoBoyWhereInput = {
       deleted: false
     }

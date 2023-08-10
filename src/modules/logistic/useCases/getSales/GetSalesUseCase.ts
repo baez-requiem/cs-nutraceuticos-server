@@ -1,10 +1,11 @@
 import { client } from '../../../../prisma/client'
 import { GetSalesRequestDTO } from './GetSalesRequestDTO'
+import { GetSalesResponseDTO } from './GetSalesResponseDTO'
 import { salesWhere } from './utils'
 
 class GetSalesUseCase {
   
-  async execute(request: GetSalesRequestDTO) {
+  async execute(request: GetSalesRequestDTO): Promise<GetSalesResponseDTO> {
 
     const where = salesWhere(request)
 
@@ -31,11 +32,11 @@ class GetSalesUseCase {
       }
     })
 
-    let salesMap = sales.map(({ SaleProducts, LogisticInfos, ...sale}) => ({
+    let salesMap = sales.map(({ SaleProducts, LogisticInfos, ...sale }) => ({
       ...sale,
       sale_products: SaleProducts,
       logistic_infos: LogisticInfos
-    }))
+    })) as GetSalesResponseDTO
 
     if (!request.number) {
       if (request.status) {
@@ -49,7 +50,6 @@ class GetSalesUseCase {
         salesMap = salesMap.filter(sale => sale.logistic_infos[0].id_motoboy === request.motoboy)
       }
     }
-
 
     return salesMap
   }
