@@ -159,13 +159,29 @@ model Misplacement {
 }
 
 model PaymentType {
-  id         String   @id @default(uuid())
-  name       String
-  notes      String?
-  created_at DateTime @default(now())
-  Sale       Sale[]
+  id           String         @id @default(uuid())
+  name         String
+  notes        String?
+  created_at   DateTime       @default(now())
+  SalePayments SalePayments[]
 
   @@map("payments_type")
+}
+
+model SalePayments {
+  id                String      @id @default(uuid())
+  //
+  id_sale           String
+  sale              Sale        @relation(fields: [id_sale], references: [id])
+  //
+  id_payment_type   String
+  payment_type      PaymentType @relation(fields: [id_payment_type], references: [id])
+  //
+  amount            Float
+  card_installments Int?
+  created_at        DateTime    @default(now())
+
+  @@map("sales_payments")
 }
 
 model DeliveryType {
@@ -196,44 +212,41 @@ model MisplacementProducts {
 }
 
 model Sale {
-  id                String          @id @default(uuid())
-  number            Int             @default(autoincrement())
-  name              String
-  phone             String
-  rg                String?
-  cpf               String?
-  email             String?
+  id             String          @id @default(uuid())
+  number         Int             @default(autoincrement())
+  name           String
+  phone          String
+  rg             String?
+  cpf            String?
+  email          String?
   //
-  cep               String?
-  state             String?
-  city              String?
-  neighborhood      String?
-  address           String?
-  complement        String?
+  cep            String?
+  state          String?
+  city           String?
+  neighborhood   String?
+  address        String?
+  complement     String?
   //
-  card_installments Int?
-  paid              Boolean         @default(false)
-  sales_quantity    Int
+  paid           Boolean         @default(false)
+  sales_quantity Int
   //
-  media_id          String
-  media             Media           @relation(fields: [media_id], references: [id])
+  media_id       String
+  media          Media           @relation(fields: [media_id], references: [id])
   //
-  payment_type_id   String
-  payment_type      PaymentType     @relation(fields: [payment_type_id], references: [id])
+  id_user        String
+  user           User            @relation(fields: [id_user], references: [id])
   //
-  id_user           String
-  user              User            @relation(fields: [id_user], references: [id])
+  id_sales_team  String?
+  sales_team     SalesTeam?      @relation(fields: [id_sales_team], references: [id])
   //
-  id_sales_team     String?
-  sales_team        SalesTeam?      @relation(fields: [id_sales_team], references: [id])
+  discounts      Float           @default(0)
+  notes          String?
+  SaleProducts   SaleProducts[]
   //
-  discounts         Float           @default(0)
-  notes             String?
-  SaleProducts      SaleProducts[]
-  //
-  created_at        DateTime        @default(now())
-  updated_at        DateTime?
-  LogisticInfos     LogisticInfos[]
+  created_at     DateTime        @default(now())
+  updated_at     DateTime?
+  LogisticInfos  LogisticInfos[]
+  SalePayments   SalePayments[]
 
   @@map("sales")
 }

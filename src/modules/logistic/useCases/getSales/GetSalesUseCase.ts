@@ -14,7 +14,9 @@ class GetSalesUseCase {
       orderBy: { created_at: 'desc' },
       include: {
         media: true,
-        payment_type: true,
+        SalePayments: {
+          include: { payment_type: true }
+        },
         LogisticInfos: { 
           include: {
             sale_status: true,
@@ -32,8 +34,9 @@ class GetSalesUseCase {
       }
     })
 
-    let salesMap = sales.map(({ SaleProducts, LogisticInfos, ...sale }) => ({
+    let salesMap = sales.map(({ SaleProducts, LogisticInfos, SalePayments, ...sale }) => ({
       ...sale,
+      sale_payments: SalePayments,
       sale_products: SaleProducts,
       logistic_infos: LogisticInfos
     })) as GetSalesResponseDTO

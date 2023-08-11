@@ -3,13 +3,10 @@ import { CreateSaleRequestDTO } from './CreateSaleRequestDTO'
 
 class CreateSaleUseCase {
 
-  async execute({ products, card_installments, ...data }: CreateSaleRequestDTO) {
+  async execute({ products, payment_types, ...data }: CreateSaleRequestDTO) {
 
     const sale = await client.sale.create({
-      data: {
-        ...data,
-        card_installments: (data.payment_type_id === 'credit_card' ? card_installments : null)
-      }
+      data: data
     })
 
     const dbProducts = await client.product.findMany({
@@ -35,8 +32,17 @@ class CreateSaleUseCase {
         id_sale_status: 'aguardando-aprovacao'
       }
     })
+
+    const dataPaymentTypes = payment_types.map(pt => ({
+      ...pt,
+      id_sale: sale.id
+    }))
+
+    const paymentTypes = await client.salePayments.createMany({
+      data: dataPaymentTypes
+    })
     
-    const ok = !!sale.id && !!saleProducts.count && !!logisticInfos.id
+    const ok = !!sale.id && !!saleProducts.count && !!logisticInfos.id && !!paymentTypes.count
 
     return ok
   }
