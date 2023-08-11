@@ -16,5 +16,7 @@ export const GetSalesSchema = z.object({
   delivery_type: z.string().nonempty().optional(),
   motoboy: z.string().nonempty().optional(),
 
-  number: z.number().or(z.string().nonempty()).optional()
+  number: z.number().or(z.string().nonempty()).optional(),
+
+  products: z.string().nonempty().array().optional(),
 })

@@ -4,6 +4,7 @@ import { onlyNumbers } from "../../../../../utils/number"
 
 export const salesWhere = (dto: GetSalesRequestDTO) => {
   const where: Prisma.SaleWhereInput = {}
+  const whereSaleProducts: Prisma.SaleProductsListRelationFilter = {}
 
   if (dto.number) {
     where.number = parseInt(dto.number.toString())
@@ -24,17 +25,25 @@ export const salesWhere = (dto: GetSalesRequestDTO) => {
       contains: dto.client_name
     }
   }
- 
+
   if (dto.client_phone) {
     where.phone = {
       mode: 'insensitive',
       contains: onlyNumbers(dto.client_phone)
     }
   }
-  
+
   if (dto.seller) {
     where.id_user = dto.seller
   }
+
+  if (dto.products?.length) {
+    whereSaleProducts.some = {
+      id_product: { in: dto.products }
+    }
+  }
+
+  where.SaleProducts = whereSaleProducts
 
   return where
 }
