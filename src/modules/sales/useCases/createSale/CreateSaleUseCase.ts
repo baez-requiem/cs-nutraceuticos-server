@@ -5,10 +5,6 @@ class CreateSaleUseCase {
 
   async execute({ products, payment_types, ...data }: CreateSaleRequestDTO) {
 
-    const sale = await client.sale.create({
-      data: data
-    })
-
     const dbProducts = await client.product.findMany({
       where: {
         id: { in: products.map(p => p.id_product) }
@@ -18,11 +14,30 @@ class CreateSaleUseCase {
     const dataSaleProducts = products.map(sp => {
       const unit_value = dbProducts.find(dbp => dbp.id === sp.id_product)?.amount!
       
+      return { ...sp, unit_value }
+    })
+
+    const totalWithDiscounts = dataSaleProducts.reduce((pv, cv) => pv + (cv.quantity * cv.unit_value), 0) - data.discounts
+    const totalPaymentMethods = payment_types.reduce((pv, cv) => pv + cv.amount , 0)
+
+    const isSameAmount = totalWithDiscounts.toFixed(2) === totalPaymentMethods.toFixed(2)
+
+    if (!isSameAmount) {
+      throw new Error('There is a difference in values')
+    }
+
+    const sale = await client.sale.create({
+      data: data
+    })
+
+    const mapSaleProducts = products.map(sp => {
+      const unit_value = dbProducts.find(dbp => dbp.id === sp.id_product)?.amount!
+      
       return { ...sp, id_sale: sale.id, unit_value }
     })
 
     const saleProducts = await client.saleProducts.createMany({
-      data: dataSaleProducts
+      data: mapSaleProducts
     })
 
     const logisticInfos = await client.logisticInfos.create({

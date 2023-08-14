@@ -179,6 +179,7 @@ model SalePayments {
   //
   amount            Float
   card_installments Int?
+  paid              Boolean     @default(false)
   created_at        DateTime    @default(now())
 
   @@map("sales_payments")
@@ -227,7 +228,6 @@ model Sale {
   address        String?
   complement     String?
   //
-  paid           Boolean         @default(false)
   sales_quantity Int
   //
   media_id       String

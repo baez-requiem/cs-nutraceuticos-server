@@ -8,7 +8,6 @@ export const CreateSaleSchema = z.object({
   name: z.string().nonempty(),
   phone: z.string().nonempty().transform(v => onlyNumbers(v)),
 
-  paid: z.boolean().optional(),
   sales_quantity: z.number().min(1),
 
   rg: z.string().optional(),
@@ -28,6 +27,7 @@ export const CreateSaleSchema = z.object({
     id_payment_type: z.string().nonempty(),
     amount: z.number().positive(),
     card_installments: z.number().positive().max(10).optional().nullable(),
+    paid: z.boolean().optional(),
   }).array(),
   
   discounts: z.number(),
