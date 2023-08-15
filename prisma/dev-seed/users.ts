@@ -9,8 +9,18 @@ export const users = [
   },
   {
     id: 'leo',
+    phone: '48996939704',
     name: "Leonardo D.",
     username: "leo",
+    password: "123",
+    active: true,
+    roleId: "seller"
+  },
+  {
+    id: 'ge',
+    phone: '48912344321',
+    name: "Geovana S.",
+    username: "ge",
     password: "123",
     active: true,
     roleId: "seller"
