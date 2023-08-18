@@ -271,6 +271,7 @@ model SaleStatus {
   id            String          @id @default(uuid())
   status        String
   color         String?
+  order         Int
   LogisticInfos LogisticInfos[]
 
   @@map("sale_status")

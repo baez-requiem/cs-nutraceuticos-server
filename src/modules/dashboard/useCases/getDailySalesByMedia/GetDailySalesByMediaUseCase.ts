@@ -5,7 +5,6 @@ class GetDailySalesByMediaUseCase {
   
   async execute() {
     const medias = await client.media.findMany({
-      where: { active: true },
       select: {
         id: true,
         name: true,

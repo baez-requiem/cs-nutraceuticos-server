@@ -6,7 +6,6 @@ class GetDailySalesBySellerUseCase {
   async execute() {
     const sellers = await client.user.findMany({
       where: {
-        active: true,
         roleId: 'seller'
       },
       select: {

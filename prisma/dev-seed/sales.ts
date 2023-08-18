@@ -55,7 +55,7 @@ const generateData = () => {
   }[] = []
 
   const totalInProducts = productsValues.reduce((pv, cv) => pv + cv, 0) - discounts
-  const partTotal = (totalInProducts / 3)
+  const partTotal = parseFloat((totalInProducts / 3).toFixed(2))
   const restValue = totalInProducts - partTotal
 
   paymentsIdx.forEach((idx, i) => {
