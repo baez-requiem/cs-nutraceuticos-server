@@ -122,6 +122,7 @@ const generateData = () => {
 }
 
 const initDate = dayjs().subtract(20, 'day')
+const initLastDayDate = dayjs().subtract(1, 'day')
 
 const generateSales = Array(40).fill(null).map((_, i) => {
   const created_at = initDate.add(i * 10.5, 'hour').toISOString()
@@ -132,8 +133,17 @@ const generateSales = Array(40).fill(null).map((_, i) => {
   }
 })
 
+const generateLastDaySales = Array(16).fill(null).map((_, i) => {
+  const created_at = initLastDayDate.add(i * 1.5, 'hour').toISOString()
+
+  return {
+    created_at,
+    ...generateData()
+  }
+})
+
 export const insertSales = async (client: PrismaClient) => {
-  const sales = generateSales
+  const sales = [...generateSales, ...generateLastDaySales]
 
   for (let i = 0; i < sales.length; i++) {
     const { products, payment_types, ...data } = sales[i]
