@@ -314,6 +314,7 @@ model LogisticInfos {
   id_sale          String
   sale             Sale          @relation(fields: [id_sale], references: [id])
   //
+  current          Boolean       @default(true)
   notes            String?
   created_at       DateTime      @default(now())
 
