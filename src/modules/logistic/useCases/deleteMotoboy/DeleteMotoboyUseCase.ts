@@ -8,6 +8,11 @@ class DeleteMotoboyUseCase {
       where: { id },
       data: { deleted: true }
     })
+    
+    await client.distributionCenter.updateMany({
+      where: { id_motoboy: id },
+      data: { deleted: true }
+    })
 
     const ok = !!motoBoy.id
 

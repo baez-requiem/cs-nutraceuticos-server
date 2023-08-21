@@ -9,6 +9,7 @@ import { salesRouter } from "./modules/sales/routes"
 import { logisticRouter } from "./modules/logistic/routes"
 import { authRouter } from "./modules/auth/routes"
 import { stockRouter } from "./modules/stock/routes"
+import { distributionCenterRouter } from "./modules/distributionCenters/routes"
 
 const router = Router()
 
@@ -21,5 +22,6 @@ router.use('/sales', salesRouter)
 router.use('/logistic', logisticRouter)
 router.use('/auth', authRouter)
 router.use('/stock', stockRouter)
+router.use('/distribution-centers', distributionCenterRouter)
 
 export { router }

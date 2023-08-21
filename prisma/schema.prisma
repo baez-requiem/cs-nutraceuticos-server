@@ -69,20 +69,22 @@ model Role {
 }
 
 model Product {
-  id                     String                 @id @default(uuid())
-  name                   String
-  description            String?
-  notes                  String?
-  active                 Boolean                @default(false)
-  deleted                Boolean                @default(false)
-  amount                 Float
-  supply_quantity_notice Int?
-  created_at             DateTime               @default(now())
-  updated_at             DateTime?
+  id                                     String                                   @id @default(uuid())
+  name                                   String
+  description                            String?
+  notes                                  String?
+  active                                 Boolean                                  @default(false)
+  deleted                                Boolean                                  @default(false)
+  amount                                 Float
+  supply_quantity_notice                 Int?
+  created_at                             DateTime                                 @default(now())
+  updated_at                             DateTime?
   //
-  BatchesProducts        BatchesProducts[]
-  MisplacementProducts   MisplacementProducts[]
-  SaleProducts           SaleProducts[]
+  BatchesProducts                        BatchesProducts[]
+  MisplacementProducts                   MisplacementProducts[]
+  SaleProducts                           SaleProducts[]
+  DistributionCenterProductsMovement     DistributionCenterProductsMovement[]
+  DistributionCenterSupplyQuantityNotice DistributionCenterSupplyQuantityNotice[]
 
   @@map("products")
 }
@@ -278,14 +280,15 @@ model SaleStatus {
 }
 
 model MotoBoy {
-  id            String          @id @default(uuid())
-  name          String
-  phone         String?
-  active        Boolean         @default(false)
-  deleted       Boolean         @default(false)
-  notes         String?
-  created_at    DateTime        @default(now())
-  LogisticInfos LogisticInfos[]
+  id                 String               @id @default(uuid())
+  name               String
+  phone              String?
+  active             Boolean              @default(false)
+  deleted            Boolean              @default(false)
+  notes              String?
+  created_at         DateTime             @default(now())
+  LogisticInfos      LogisticInfos[]
+  DistributionCenter DistributionCenter[]
 
   @@map("motoboy")
 }
@@ -315,4 +318,72 @@ model LogisticInfos {
   created_at       DateTime      @default(now())
 
   @@map("logistic_infos")
+}
+
+model DistributionCenter {
+  id                                     String                                   @id @default(uuid())
+  name                                   String
+  //
+  id_motoboy                             String?
+  motoboy                                MotoBoy?                                 @relation(fields: [id_motoboy], references: [id])
+  //
+  deleted                                Boolean                                  @default(false)
+  created_at                             DateTime                                 @default(now())
+  //
+  DistributionCenterMovement             DistributionCenterMovement[]
+  RelToDistributionCenterMovement        DistributionCenterMovement[]             @relation("RelToDistributionCenter")
+  DistributionCenterSupplyQuantityNotice DistributionCenterSupplyQuantityNotice[]
+
+  @@map("distribution_centers")
+}
+
+enum Operation {
+  IN
+  OUT
+  TRANSFER_IN
+  TRANSFER_OUT
+}
+
+model DistributionCenterMovement {
+  id                                 String                               @id @default(uuid())
+  operation                          Operation
+  //
+  id_distribution_center             String
+  distribution_center                DistributionCenter                   @relation(fields: [id_distribution_center], references: [id])
+  //
+  id_distribution_center_rel         String?
+  distribution_center_rel            DistributionCenter?                  @relation(name: "RelToDistributionCenter", fields: [id_distribution_center_rel], references: [id])
+  //
+  created_at                         DateTime                             @default(now())
+  DistributionCenterProductsMovement DistributionCenterProductsMovement[]
+
+  @@map("distribution_center_movements")
+}
+
+model DistributionCenterProductsMovement {
+  id                              String                      @id @default(uuid())
+  quantity                        Int
+  //
+  id_product                      String
+  product                         Product                     @relation(fields: [id_product], references: [id])
+  //
+  id_distribution_center_movement String
+  distribution_center_movement    DistributionCenterMovement? @relation(fields: [id_distribution_center_movement], references: [id])
+
+  @@map("distribution_center__products_movement")
+}
+
+model DistributionCenterSupplyQuantityNotice {
+  id                     String             @id @default(uuid())
+  quantity               Int
+  //
+  id_product             String
+  product                Product            @relation(fields: [id_product], references: [id])
+  //
+  id_distribution_center String
+  distribution_center    DistributionCenter @relation(fields: [id_distribution_center], references: [id])
+  //
+  created_at             DateTime           @default(now())
+
+  @@map("distribution_center_supply_quantity_notice")
 }
