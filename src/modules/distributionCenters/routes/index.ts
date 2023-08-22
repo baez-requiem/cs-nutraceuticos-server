@@ -4,10 +4,13 @@ import { createDistributionCenterController } from '../useCases/createDistributi
 import { updateDistributionCenterController } from '../useCases/updateDistributionCenter'
 import { getDistributionCentersController } from '../useCases/getDistributionCenters'
 import { getDistributionCentersStockController } from '../useCases/getDistributionCentersStock'
+import { createMovementController } from '../useCases/createMovement'
 
 const distributionCenterRouter = Router()
 
 distributionCenterRouter.get('/stock', (req, res) => getDistributionCentersStockController.exec(req, res))
+
+distributionCenterRouter.post('/movement', (req, res) => createMovementController.exec(req, res))
 
 distributionCenterRouter.get('', (req, res) => getDistributionCentersController.exec(req, res))
 distributionCenterRouter.post('', (req, res) => createDistributionCenterController.exec(req, res))

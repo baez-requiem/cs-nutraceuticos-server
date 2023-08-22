@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const AddMovementSchema = z.object({
+export const CreateMovementSchema = z.object({
   id_distribution_center: z.string().nonempty(),
   id_distribution_center_rel: z.string().nonempty().optional(),
   operation: z.enum(['IN', 'OUT', 'TRANSFER_IN', 'TRANSFER_OUT']),
