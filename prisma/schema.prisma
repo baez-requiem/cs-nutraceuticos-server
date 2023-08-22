@@ -41,9 +41,7 @@ model User {
   created_at    DateTime        @default(now())
   updated_at    DateTime?
   RefreshToken  RefreshToken[]
-  Misplacement  Misplacement[]
   Sale          Sale[]
-  Batch         Batch[]
   LogisticInfos LogisticInfos[]
 
   @@map("users")
@@ -80,8 +78,6 @@ model Product {
   created_at                             DateTime                                 @default(now())
   updated_at                             DateTime?
   //
-  BatchesProducts                        BatchesProducts[]
-  MisplacementProducts                   MisplacementProducts[]
   SaleProducts                           SaleProducts[]
   DistributionCenterProductsMovement     DistributionCenterProductsMovement[]
   DistributionCenterSupplyQuantityNotice DistributionCenterSupplyQuantityNotice[]
@@ -114,50 +110,6 @@ model SalesTeam {
   Sale       Sale[]
 
   @@map("sales_team")
-}
-
-model Batch {
-  id              String            @id @default(uuid())
-  notes           String?
-  shipping        Float
-  created_at      DateTime          @default(now())
-  updated_at      DateTime?
-  BatchesProducts BatchesProducts[]
-  //
-  id_user         String
-  user            User              @relation(fields: [id_user], references: [id])
-
-  @@map("batches")
-}
-
-model BatchesProducts {
-  id          String    @id @default(uuid())
-  //
-  id_batch    String
-  batch       Batch     @relation(fields: [id_batch], references: [id])
-  //
-  id_product  String
-  product     Product   @relation(fields: [id_product], references: [id])
-  //
-  quantity    Int
-  unit_amount Float
-  //
-  created_at  DateTime  @default(now())
-  updated_at  DateTime?
-
-  @@map("batches_products")
-}
-
-model Misplacement {
-  id                   String                 @id @default(uuid())
-  notes                String?
-  created_at           DateTime               @default(now())
-  MisplacementProducts MisplacementProducts[]
-  //
-  id_user              String
-  user                 User                   @relation(fields: [id_user], references: [id])
-
-  @@map("misplacements")
 }
 
 model PaymentType {
@@ -195,23 +147,6 @@ model DeliveryType {
   LogisticInfos LogisticInfos[]
 
   @@map("delivery_type")
-}
-
-model MisplacementProducts {
-  id              String       @id @default(uuid())
-  //
-  id_misplacement String
-  misplacement    Misplacement @relation(fields: [id_misplacement], references: [id])
-  //
-  id_product      String
-  product         Product      @relation(fields: [id_product], references: [id])
-  //
-  quantity        Int
-  //
-  created_at      DateTime     @default(now())
-  updated_at      DateTime?
-
-  @@map("misplacement_products")
 }
 
 model Sale {
