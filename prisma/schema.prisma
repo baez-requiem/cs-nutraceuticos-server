@@ -74,7 +74,6 @@ model Product {
   active                                 Boolean                                  @default(false)
   deleted                                Boolean                                  @default(false)
   amount                                 Float
-  supply_quantity_notice                 Int?
   created_at                             DateTime                                 @default(now())
   updated_at                             DateTime?
   //
