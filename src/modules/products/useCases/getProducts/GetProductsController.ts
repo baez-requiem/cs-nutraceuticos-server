@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import { GetProductsUseCase } from './GetProductsUseCase'
 import { BaseController } from '../../../../shared/core/BaseController'
+import { parseSchemaDTO } from '../../../../utils/zod.utils'
+import { GetProductsSchema } from './GetProductsSchema'
 
 class GetProductsController extends BaseController {
   private useCase: GetProductsUseCase
@@ -11,8 +13,15 @@ class GetProductsController extends BaseController {
   }
 
   async execute (request: Request, response: Response) {
+
+    const dto = parseSchemaDTO(GetProductsSchema, request.body)
+
+    if ('errors' in dto) {
+      return this.clientError(response, dto.errors)
+    }
+
     try {
-      const result = await this.useCase.execute()
+      const result = await this.useCase.execute(dto)
 
       return Array.isArray(result)
         ? this.ok(response, result)

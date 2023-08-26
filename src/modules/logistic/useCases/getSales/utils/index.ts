@@ -5,6 +5,7 @@ import { onlyNumbers } from "../../../../../utils/number"
 export const salesWhere = (dto: GetSalesRequestDTO) => {
   const where: Prisma.SaleWhereInput = {}
   const whereSaleProducts: Prisma.SaleProductsListRelationFilter = {}
+  const whereSalePayments: Prisma.SalePaymentsListRelationFilter = {}
 
   if (dto.number) {
     where.number = parseInt(dto.number.toString())
@@ -43,7 +44,14 @@ export const salesWhere = (dto: GetSalesRequestDTO) => {
     }
   }
 
+  if (dto.payment_type) {
+    whereSalePayments.some = {
+      id_payment_type: { equals: dto.payment_type }
+    }
+  }
+
   where.SaleProducts = whereSaleProducts
+  where.SalePayments = whereSalePayments
 
   return where
 }

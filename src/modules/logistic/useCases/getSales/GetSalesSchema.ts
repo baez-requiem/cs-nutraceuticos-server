@@ -19,4 +19,6 @@ export const GetSalesSchema = z.object({
   number: z.number().or(z.string().nonempty()).optional(),
 
   products: z.string().nonempty().array().optional(),
+
+  payment_type: z.string().nonempty().optional(),
 })

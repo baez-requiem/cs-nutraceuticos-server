@@ -11,7 +11,8 @@ import { salesTeam } from './salesTeam'
 import { saleStatus } from './saleStatus'
 import { deliveryTypes } from './deliveryTypes'
 import { motoboys } from './motoboys'
-import { insertBatches } from './batches'
+import { insertSales } from './sales'
+import { insertDistributionCenters } from './distributionCenters'
 
 const client = new PrismaClient()
 
@@ -75,7 +76,8 @@ async function main() {
     })  
   }
 
-  await insertBatches(client)
+  await insertDistributionCenters(client)
+  await insertSales(client)
 }
 
 main()

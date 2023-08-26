@@ -3,7 +3,7 @@ import { UpdateSaleRequestDTO } from './UpdateSaleRequestDTO'
 
 class UpdateSaleUseCase {
 
-  async execute({ id, products, ...data }: UpdateSaleRequestDTO) {
+  async execute({ id, products, payment_types, ...data }: UpdateSaleRequestDTO) {
 
     const sale = await client.sale.update({
       where: { id },
@@ -13,25 +13,40 @@ class UpdateSaleUseCase {
       }
     })
 
-    await client.saleProducts.deleteMany({ where: { id_sale: id } })
+    if (products && products.length) {
+      await client.saleProducts.deleteMany({ where: { id_sale: id } })
+  
+      const dbProducts = await client.product.findMany({
+        where: {
+          id: { in: products.map(p => p.id_product) }
+        }
+      })
 
-    const dbProducts = await client.product.findMany({
-      where: {
-        id: { in: products.map(p => p.id_product) }
-      }
-    })
+      const dataSaleProducts = products.map(sp => {
+        const unit_value = dbProducts.find(dbp => dbp.id === sp.id_product)?.amount!
+        
+        return { ...sp, id_sale: sale.id, unit_value }
+      })
+  
+      await client.saleProducts.createMany({
+        data: dataSaleProducts
+      })
+    }
+    
+    if (payment_types && payment_types.length) {
+      await client.salePayments.deleteMany({ where: { id_sale: id } })
 
-    const dataSaleProducts = products.map(sp => {
-      const unit_value = dbProducts.find(dbp => dbp.id === sp.id_product)?.amount!
-      
-      return { ...sp, id_sale: sale.id, unit_value }
-    })
+      const dataPaymentTypes = payment_types.map(pt => ({
+        ...pt,
+        id_sale: sale.id
+      }))
+  
+      await client.salePayments.createMany({
+        data: dataPaymentTypes
+      })
+    }
 
-    const saleProducts = await client.saleProducts.createMany({
-      data: dataSaleProducts
-    })
-
-    const ok = !!sale.id && !!saleProducts.count
+    const ok = !!sale.id
 
     return ok
   }

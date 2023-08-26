@@ -1,5 +1,5 @@
 export const motoboys = [
-  { name: 'Josué' },
-  { name: 'Alberto' },
-  { name: 'Jorge' },
+  { name: 'Josué', active: true },
+  { name: 'Alberto', active: true },
+  { name: 'Jorge', active: true },
 ]

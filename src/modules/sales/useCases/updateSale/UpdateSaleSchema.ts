@@ -7,8 +7,6 @@ export const UpdateSaleSchema = z.object({
   name: z.string().nonempty(),
   phone: z.string().nonempty().transform(v => onlyNumbers(v)),
 
-  card_installments: z.number().positive().max(10).optional().nullable(),
-  paid: z.boolean().optional(),
   sales_quantity: z.number().min(1).optional(),
 
   rg: z.string().optional(),
@@ -23,7 +21,13 @@ export const UpdateSaleSchema = z.object({
   complement: z.string().optional(),
 
   media_id: z.string().nonempty(),
-  payment_type_id: z.string().nonempty(),
+
+  payment_types: z.object({
+    id_payment_type: z.string().nonempty(),
+    amount: z.number().positive(),
+    card_installments: z.number().positive().max(10).optional().nullable(),
+    paid: z.boolean().optional(),
+  }).array().optional(),
   
   discounts: z.number().optional(),
   notes: z.string().optional(),
@@ -31,5 +35,5 @@ export const UpdateSaleSchema = z.object({
   products: z.object({
     id_product: z.string().nonempty(),
     quantity: z.number().min(1)
-  }).array()
+  }).array().optional()
 })

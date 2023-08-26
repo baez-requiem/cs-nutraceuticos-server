@@ -41,9 +41,7 @@ model User {
   created_at    DateTime        @default(now())
   updated_at    DateTime?
   RefreshToken  RefreshToken[]
-  Misplacement  Misplacement[]
   Sale          Sale[]
-  Batch         Batch[]
   LogisticInfos LogisticInfos[]
 
   @@map("users")
@@ -69,20 +67,19 @@ model Role {
 }
 
 model Product {
-  id                     String                 @id @default(uuid())
-  name                   String
-  description            String?
-  notes                  String?
-  active                 Boolean                @default(false)
-  deleted                Boolean                @default(false)
-  amount                 Float
-  supply_quantity_notice Int?
-  created_at             DateTime               @default(now())
-  updated_at             DateTime?
+  id                                     String                                   @id @default(uuid())
+  name                                   String
+  description                            String?
+  notes                                  String?
+  active                                 Boolean                                  @default(false)
+  deleted                                Boolean                                  @default(false)
+  amount                                 Float
+  created_at                             DateTime                                 @default(now())
+  updated_at                             DateTime?
   //
-  BatchesProducts        BatchesProducts[]
-  MisplacementProducts   MisplacementProducts[]
-  SaleProducts           SaleProducts[]
+  SaleProducts                           SaleProducts[]
+  DistributionCenterProductsMovement     DistributionCenterProductsMovement[]
+  DistributionCenterSupplyQuantityNotice DistributionCenterSupplyQuantityNotice[]
 
   @@map("products")
 }
@@ -114,58 +111,31 @@ model SalesTeam {
   @@map("sales_team")
 }
 
-model Batch {
-  id              String            @id @default(uuid())
-  notes           String?
-  shipping        Float
-  created_at      DateTime          @default(now())
-  updated_at      DateTime?
-  BatchesProducts BatchesProducts[]
-  //
-  id_user         String
-  user            User              @relation(fields: [id_user], references: [id])
-
-  @@map("batches")
-}
-
-model BatchesProducts {
-  id          String    @id @default(uuid())
-  //
-  id_batch    String
-  batch       Batch     @relation(fields: [id_batch], references: [id])
-  //
-  id_product  String
-  product     Product   @relation(fields: [id_product], references: [id])
-  //
-  quantity    Int
-  unit_amount Float
-  //
-  created_at  DateTime  @default(now())
-  updated_at  DateTime?
-
-  @@map("batches_products")
-}
-
-model Misplacement {
-  id                   String                 @id @default(uuid())
-  notes                String?
-  created_at           DateTime               @default(now())
-  MisplacementProducts MisplacementProducts[]
-  //
-  id_user              String
-  user                 User                   @relation(fields: [id_user], references: [id])
-
-  @@map("misplacements")
-}
-
 model PaymentType {
-  id         String   @id @default(uuid())
-  name       String
-  notes      String?
-  created_at DateTime @default(now())
-  Sale       Sale[]
+  id           String         @id @default(uuid())
+  name         String
+  notes        String?
+  created_at   DateTime       @default(now())
+  SalePayments SalePayments[]
 
   @@map("payments_type")
+}
+
+model SalePayments {
+  id                String      @id @default(uuid())
+  //
+  id_sale           String
+  sale              Sale        @relation(fields: [id_sale], references: [id])
+  //
+  id_payment_type   String
+  payment_type      PaymentType @relation(fields: [id_payment_type], references: [id])
+  //
+  amount            Float
+  card_installments Int?
+  paid              Boolean     @default(false)
+  created_at        DateTime    @default(now())
+
+  @@map("sales_payments")
 }
 
 model DeliveryType {
@@ -178,62 +148,41 @@ model DeliveryType {
   @@map("delivery_type")
 }
 
-model MisplacementProducts {
-  id              String       @id @default(uuid())
-  //
-  id_misplacement String
-  misplacement    Misplacement @relation(fields: [id_misplacement], references: [id])
-  //
-  id_product      String
-  product         Product      @relation(fields: [id_product], references: [id])
-  //
-  quantity        Int
-  //
-  created_at      DateTime     @default(now())
-  updated_at      DateTime?
-
-  @@map("misplacement_products")
-}
-
 model Sale {
-  id                String          @id @default(uuid())
-  number            Int             @default(autoincrement())
-  name              String
-  phone             String
-  rg                String?
-  cpf               String?
-  email             String?
+  id             String          @id @default(uuid())
+  number         Int             @default(autoincrement())
+  name           String
+  phone          String
+  rg             String?
+  cpf            String?
+  email          String?
   //
-  cep               String?
-  state             String?
-  city              String?
-  neighborhood      String?
-  address           String?
-  complement        String?
+  cep            String?
+  state          String?
+  city           String?
+  neighborhood   String?
+  address        String?
+  complement     String?
   //
-  card_installments Int?
-  paid              Boolean         @default(false)
-  sales_quantity    Int
+  sales_quantity Int
   //
-  media_id          String
-  media             Media           @relation(fields: [media_id], references: [id])
+  media_id       String
+  media          Media           @relation(fields: [media_id], references: [id])
   //
-  payment_type_id   String
-  payment_type      PaymentType     @relation(fields: [payment_type_id], references: [id])
+  id_user        String
+  user           User            @relation(fields: [id_user], references: [id])
   //
-  id_user           String
-  user              User            @relation(fields: [id_user], references: [id])
+  id_sales_team  String?
+  sales_team     SalesTeam?      @relation(fields: [id_sales_team], references: [id])
   //
-  id_sales_team     String?
-  sales_team        SalesTeam?      @relation(fields: [id_sales_team], references: [id])
+  discounts      Float           @default(0)
+  notes          String?
+  SaleProducts   SaleProducts[]
   //
-  discounts         Float           @default(0)
-  notes             String?
-  SaleProducts      SaleProducts[]
-  //
-  created_at        DateTime        @default(now())
-  updated_at        DateTime?
-  LogisticInfos     LogisticInfos[]
+  created_at     DateTime        @default(now())
+  updated_at     DateTime?
+  LogisticInfos  LogisticInfos[]
+  SalePayments   SalePayments[]
 
   @@map("sales")
 }
@@ -258,20 +207,22 @@ model SaleStatus {
   id            String          @id @default(uuid())
   status        String
   color         String?
+  order         Int
   LogisticInfos LogisticInfos[]
 
   @@map("sale_status")
 }
 
 model MotoBoy {
-  id            String          @id @default(uuid())
-  name          String
-  phone         String?
-  active        Boolean         @default(false)
-  deleted       Boolean         @default(false)
-  notes         String?
-  created_at    DateTime        @default(now())
-  LogisticInfos LogisticInfos[]
+  id                 String               @id @default(uuid())
+  name               String
+  phone              String?
+  active             Boolean              @default(false)
+  deleted            Boolean              @default(false)
+  notes              String?
+  created_at         DateTime             @default(now())
+  LogisticInfos      LogisticInfos[]
+  DistributionCenter DistributionCenter[]
 
   @@map("motoboy")
 }
@@ -297,8 +248,77 @@ model LogisticInfos {
   id_sale          String
   sale             Sale          @relation(fields: [id_sale], references: [id])
   //
+  current          Boolean       @default(true)
   notes            String?
   created_at       DateTime      @default(now())
 
   @@map("logistic_infos")
+}
+
+model DistributionCenter {
+  id                                     String                                   @id @default(uuid())
+  name                                   String
+  //
+  id_motoboy                             String?
+  motoboy                                MotoBoy?                                 @relation(fields: [id_motoboy], references: [id])
+  //
+  deleted                                Boolean                                  @default(false)
+  created_at                             DateTime                                 @default(now())
+  //
+  DistributionCenterMovement             DistributionCenterMovement[]
+  RelToDistributionCenterMovement        DistributionCenterMovement[]             @relation("RelToDistributionCenter")
+  DistributionCenterSupplyQuantityNotice DistributionCenterSupplyQuantityNotice[]
+
+  @@map("distribution_centers")
+}
+
+enum Operation {
+  IN
+  OUT
+  TRANSFER_IN
+  TRANSFER_OUT
+}
+
+model DistributionCenterMovement {
+  id                                 String                               @id @default(uuid())
+  operation                          Operation
+  //
+  id_distribution_center             String
+  distribution_center                DistributionCenter                   @relation(fields: [id_distribution_center], references: [id])
+  //
+  id_distribution_center_rel         String?
+  distribution_center_rel            DistributionCenter?                  @relation(name: "RelToDistributionCenter", fields: [id_distribution_center_rel], references: [id])
+  //
+  created_at                         DateTime                             @default(now())
+  DistributionCenterProductsMovement DistributionCenterProductsMovement[]
+
+  @@map("distribution_center_movements")
+}
+
+model DistributionCenterProductsMovement {
+  id                              String                      @id @default(uuid())
+  quantity                        Int
+  //
+  id_product                      String
+  product                         Product                     @relation(fields: [id_product], references: [id])
+  //
+  id_distribution_center_movement String
+  distribution_center_movement    DistributionCenterMovement? @relation(fields: [id_distribution_center_movement], references: [id])
+
+  @@map("distribution_center__products_movement")
+}
+
+model DistributionCenterSupplyQuantityNotice {
+  id                     String             @id @default(uuid())
+  quantity               Int
+  //
+  id_product             String
+  product                Product            @relation(fields: [id_product], references: [id])
+  //
+  id_distribution_center String
+  distribution_center    DistributionCenter @relation(fields: [id_distribution_center], references: [id])
+  //
+  created_at             DateTime           @default(now())
+
+  @@map("distribution_center_supply_quantity_notice")
 }
