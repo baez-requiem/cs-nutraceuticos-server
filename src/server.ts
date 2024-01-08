@@ -1,6 +1,11 @@
 import 'dotenv/config'
 import "express-async-errors"
 
+import multer from 'multer'
+
+const storage = multer.memoryStorage()
+export const uploadMulter = multer({ storage: storage })
+
 import express, { NextFunction, Response, Request } from 'express'
 
 import { router } from './routes'
@@ -18,11 +23,7 @@ app.use((request: Request, response: Response, next: NextFunction)=> {
 })
 
 app.use(express.json())
-
 app.use(router)
-
 app.use(errorMiddleware)
-
-
 
 app.listen(3000, () => console.log('Server is running on port 3000'))

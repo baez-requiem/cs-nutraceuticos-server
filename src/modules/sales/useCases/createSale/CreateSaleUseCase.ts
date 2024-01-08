@@ -44,7 +44,8 @@ class CreateSaleUseCase {
       data: {
         id_sale: sale.id,
         id_user: data.id_user,
-        id_sale_status: 'aguardando-aprovacao'
+        id_sale_status: 'aguardando-aprovacao',
+        delivery_time: '00:00'
       }
     })
 

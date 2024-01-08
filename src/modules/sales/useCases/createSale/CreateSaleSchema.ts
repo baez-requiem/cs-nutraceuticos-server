@@ -19,6 +19,7 @@ export const CreateSaleSchema = z.object({
   city: z.string().optional(),
   neighborhood: z.string().optional(),
   address: z.string().optional(),
+  address_number: z.string().optional(),
   complement: z.string().optional(),
 
   media_id: z.string().nonempty(),
