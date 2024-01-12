@@ -22,6 +22,6 @@ router.use('/sales', salesRouter)
 router.use('/logistic', logisticRouter)
 router.use('/auth', authRouter)
 router.use('/distribution-centers', distributionCenterRouter)
-router.use('/files', filesRouter)
+// router.use('/files', filesRouter)
 
 export { router }
