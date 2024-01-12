@@ -9,7 +9,7 @@ import { salesRouter } from "./modules/sales/routes"
 import { logisticRouter } from "./modules/logistic/routes"
 import { authRouter } from "./modules/auth/routes"
 import { distributionCenterRouter } from "./modules/distributionCenters/routes"
-import { filesRouter } from "./modules/files/routes"
+// import { filesRouter } from "./modules/files/routes"
 
 const router = Router()
 
