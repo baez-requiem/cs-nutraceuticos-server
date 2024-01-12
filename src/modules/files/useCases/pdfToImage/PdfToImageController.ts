@@ -21,7 +21,7 @@ class PdfToImageController extends BaseController {
       return this.clientError(response, 'Arquivo ou nome da imagem não fornecido.')
     }
 
-    const result = await this.useCase.execute({ file, imageName } as PdfToImageRequestDTO)
+    const result = await this.useCase.execute({ file, imageName } as PdfToImageRequestDTO);
 
     if (result) {
       response.download(result.outputPath, err => {
