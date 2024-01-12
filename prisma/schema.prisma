@@ -162,6 +162,7 @@ model Sale {
   city           String?
   neighborhood   String?
   address        String?
+  address_number String?
   complement     String?
   //
   sales_quantity Int
@@ -240,6 +241,7 @@ model LogisticInfos {
   id_delivery_type String?
   delivery_type    DeliveryType? @relation(fields: [id_delivery_type], references: [id])
   delivery_date    DateTime?     @default(now())
+  delivery_time    String?       @default("00:00")
   tracking_code    String?
   //
   id_motoboy       String?

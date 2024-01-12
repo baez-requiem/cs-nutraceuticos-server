@@ -12,7 +12,7 @@ class GetMotoboysUseCase {
     }
 
     if (request.active) {
-      where.active = (request.active === 'true')
+      where.active = !!(request.active === 'true')
     }
 
     const motoboys = await client.motoBoy.findMany({
