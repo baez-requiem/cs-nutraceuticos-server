@@ -6,7 +6,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 
 RUN apt-get update && apt-get install -y \
-    poppler-utils \
+    poppler-utils poppler-data \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

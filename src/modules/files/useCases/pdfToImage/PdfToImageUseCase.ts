@@ -1,8 +1,7 @@
 import fs from 'fs'
+import os from 'os'
 import path from 'path'
-
-// @ts-ignore
-import { convert } from 'pdf-poppler'
+import { Poppler } from 'node-poppler'
 
 import { PdfToImageRequestDTO } from './PdfToImageRequestDTO'
 
@@ -14,16 +13,15 @@ class PdfToImageUseCase {
 
     fs.writeFileSync(inputPath, Buffer.from(file.buffer));
 
-    const opts = {
-      format: 'png',
-      out_dir: path.dirname(outputPath),
-      out_prefix: path.basename(outputPath, path.extname(outputPath))
-    }
-    
+    const poppler = new Poppler(os.type() === 'Windows_NT' ? undefined : '/usr/bin');
+
     try {
-      await convert(inputPath, opts)
-      
-      return { inputPath, outputPath: outputPath+ '-1.png' }
+      await poppler.pdfToCairo(inputPath, outputPath, {
+        firstPageToConvert: 1,
+        pngFile: true
+      })
+
+      return { inputPath, outputPath: outputPath + '-1.png' }
     } catch (err) {
       console.log(err)
       return false
