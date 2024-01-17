@@ -1,4 +1,7 @@
-import { uploadMulter } from '../../../server'
+import multer from 'multer'
+
+const storage = multer.memoryStorage()
+const uploadMulter = multer({ storage: storage })
 
 import { Router } from 'express'
 import { ensureAuthenticated } from '../../../middlewares/ensureAuthenticated'

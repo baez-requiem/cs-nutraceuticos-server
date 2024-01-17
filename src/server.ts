@@ -1,11 +1,6 @@
 import 'dotenv/config'
 import "express-async-errors"
 
-import multer from 'multer'
-
-const storage = multer.memoryStorage()
-export const uploadMulter = multer({ storage: storage })
-
 import express, { NextFunction, Response, Request } from 'express'
 
 import { router } from './routes'
