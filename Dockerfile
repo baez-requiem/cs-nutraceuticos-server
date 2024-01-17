@@ -9,6 +9,6 @@ WORKDIR /app
 COPY . /app
 
 RUN apt-get update && apt-get install -y nodejs npm
-RUN yarn && yarn build
+RUN npm install && npm run build
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
