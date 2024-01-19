@@ -3,7 +3,7 @@ import { CreateSaleRequestDTO } from './CreateSaleRequestDTO'
 
 class CreateSaleUseCase {
 
-  async execute({ products, payment_types, ...data }: CreateSaleRequestDTO) {
+  async execute({ products, payment_types, delivery_date, delivery_time, id_delivery_type, ...data }: CreateSaleRequestDTO) {
 
     const dbProducts = await client.product.findMany({
       where: {
@@ -45,7 +45,10 @@ class CreateSaleUseCase {
         id_sale: sale.id,
         id_user: data.id_user,
         id_sale_status: 'aguardando-aprovacao',
-        delivery_time: '00:00'
+        delivery_time: delivery_time,
+        id_delivery_type: id_delivery_type,
+        delivery_date: delivery_date,
+        notes: data.notes
       }
     })
 

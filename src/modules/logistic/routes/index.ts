@@ -11,6 +11,7 @@ import { updateMotoboyController } from '../useCases/updateMotoboy'
 import { deleteMotoboyController } from '../useCases/deleteMotoboy'
 
 import { createNewLogisticInfoController } from '../useCases/createNewLogisticInfo'
+import { getCurrentLogisticInfoController } from '../useCases/getCurrentLogisticInfo'
 
 const logisticRouter = Router()
 
@@ -23,6 +24,7 @@ logisticRouter.put('/motoboys', ensureAuthenticated, (req, res) => updateMotoboy
 logisticRouter.post('/motoboys', ensureAuthenticated, (req, res) => createMotoboyController.exec(req, res))
 logisticRouter.delete('/motoboys', ensureAuthenticated, (req, res) => deleteMotoboyController.exec(req, res))
 
+logisticRouter.get('/logistic-info/current', ensureAuthenticated, (req, res) => getCurrentLogisticInfoController.exec(req, res))
 logisticRouter.post('/logistic-info', ensureAuthenticated, (req, res) => createNewLogisticInfoController.exec(req, res))
 
 export { logisticRouter }

@@ -1,5 +1,7 @@
 import { z } from "zod"
 import { onlyNumbers } from "../../../../utils/number"
+import { startDay } from "../../../../utils/dateUtils"
+import dayjs from "dayjs"
 
 export const UpdateSaleSchema = z.object({
   id: z.string().nonempty(),
@@ -21,6 +23,10 @@ export const UpdateSaleSchema = z.object({
   complement: z.string().optional(),
 
   media_id: z.string().nonempty(),
+
+  id_delivery_type: z.string().nonempty().nullable(),
+  delivery_date: z.nullable(z.string().transform(val => val ? startDay(dayjs(val)).toISOString() : null)).default(null).optional(),
+  delivery_time: z.string().optional(),
 
   payment_types: z.object({
     id_payment_type: z.string().nonempty(),

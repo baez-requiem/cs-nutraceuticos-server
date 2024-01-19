@@ -34,7 +34,6 @@ class GetMonthStatisticsResumeUseCase {
       })
     })
 
-    // ts
     return monthStatisticsResume
   }
 }

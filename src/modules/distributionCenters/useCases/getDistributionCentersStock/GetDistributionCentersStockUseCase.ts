@@ -18,7 +18,7 @@ class GetDistributionCentersStockUseCase {
     const logisticInfos = await client.logisticInfos.findMany({
       where: {
         current: true,
-        id_sale_status: { notIn: ['aguardando-aprovacao', 'retorno'] },
+        id_sale_status: { notIn: ['aguardando-aprovacao', 'retorno', 'cancelada'] },
         id_delivery_type: { not: null } },
       include: {
         motoboy: true,

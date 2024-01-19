@@ -66,3 +66,5 @@ export const startAndEndOfDay = (date?: DayjsType) => {
 
   return [startOfDay, endOfDay]
 }
+
+export const getDbDateTime = (date: string|Date) => new Date(date).getTime()
